@@ -1,0 +1,15 @@
+# Training deps for CUDA 11.x / driver 470 (no Unsloth)
+# Install inside the Docker container:
+#   pip install -r training/requirements-training-nounsloth.txt
+#
+# Base image assumed: pytorch/pytorch:2.1.2-cuda11.8-cudnn8-devel
+# (already has torch 2.1.2 + CUDA 11.8, so no torch in this list)
+
+trl>=0.11,<0.15
+transformers>=4.45,<4.47
+peft>=0.13
+bitsandbytes>=0.43
+accelerate>=0.34
+wandb>=0.18
+datasets>=2.20
+requests>=2.31
