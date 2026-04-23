@@ -11,5 +11,6 @@ experiments
 notebooks
 training
 tests
+frontend
 *.md
 *.pdf

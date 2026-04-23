@@ -15,6 +15,7 @@ import os
 from typing import Optional
 
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 
@@ -25,6 +26,17 @@ app = FastAPI(
     title="SMB Ad Manager — OpenEnv",
     description="RL training environment for LLM ad management agents.",
     version="0.1.0",
+)
+
+# CORS: allow the Vercel-hosted frontend to call this API directly.
+# In production we'd lock this down to the exact Vercel domain; for a hackathon
+# we accept any origin since the endpoints are read-mostly and judge-facing.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["*"],
 )
 
 
