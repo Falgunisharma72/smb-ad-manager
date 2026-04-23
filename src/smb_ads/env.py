@@ -18,7 +18,7 @@ from __future__ import annotations
 import json
 from typing import Literal, Optional
 
-from . import policy, policy_drift, scenarios, user_model
+from . import policy, policy_drift, rewards, scenarios, user_model
 from .marketing_api import ToolError, dispatch
 from .models import (
     Action,
@@ -95,6 +95,8 @@ class Env:
         self._day = 0
         self._done = False
         self._pending_events: list[str] = []
+        # Snapshot of prev-step metrics, used by r1_roas_improvement
+        self._prev_metrics_snapshot: dict = {}
 
     # ─── OpenEnv-required methods ────────────────────────────────────────
 
@@ -113,6 +115,7 @@ class Env:
         self._day = 0
         self._done = False
         self._pending_events = []
+        self._prev_metrics_snapshot = {}
 
         # Pre-create a starter campaign so the agent is always in "react mode"
         self._bootstrap_starter_campaign()
@@ -194,14 +197,25 @@ class Env:
         if self._step_count >= self._days_total:
             self._done = True
 
-        # ─── Build reward (PLACEHOLDER — real 5-reward logic lands next) ─
-        breakdown = RewardBreakdown(
-            r1_roas_improvement=min(1.0, self._latest_campaign_roas() / 2.0),
-            r2_policy_compliance=1 if self._state.rejected_ads_this_episode == 0 else 0,
-            r3_format_compliance=1 if call_ok else 0,
-            r4_budget_discipline=1 if self._state.budget_spent_inr <= self._state.total_budget_inr else 0,
-            r5_no_cheating=1,  # proper anti-hack detectors land next commit
+        # ─── Build reward using the real 5-reward + anti-hack logic ─────
+        current_metrics_dict = {
+            c.id: m for c in self._state.campaigns.values()
+            if (m := self._state.most_recent_metrics(c.id)) is not None
+        }
+        recent_get_metrics = sum(
+            1 for entry in self._state.call_log[-3:]
+            if entry.tool == "get_metrics"
         )
+        ctx = rewards.StepContext(
+            call_log_entry=self._state.call_log[-1],
+            prev_metrics=self._prev_metrics_snapshot,
+            current_metrics=current_metrics_dict,
+            recent_get_metrics_calls=recent_get_metrics,
+        )
+        breakdown, fired_hacks = rewards.compute_rewards(self._state, ctx)
+        # Save for next step's prev_metrics
+        self._prev_metrics_snapshot = current_metrics_dict
+
         reward = Reward(
             score=breakdown.total,
             done=self._done,
@@ -210,6 +224,7 @@ class Env:
                 "action_ok": call_ok,
                 "action_error": error,
                 "tool_result": result_dict,
+                "fired_hacks": fired_hacks,
             },
         )
 
@@ -219,6 +234,10 @@ class Env:
             events.append(f"Action '{action.tool.value}' FAILED: {error}")
         else:
             events.append(f"Action '{action.tool.value}' executed OK")
+
+        # Log fired hacks so judges can see them live in the demo
+        if fired_hacks:
+            events.append(f"⚠ Reward-hack attempt detected: {', '.join(fired_hacks)}")
 
         # ─── Log ────────────────────────────────────────────────────────
         print(
