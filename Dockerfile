@@ -9,15 +9,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Python deps
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
-# App code
+# App code — PYTHONPATH set below, so no `pip install -e .` needed
 COPY . .
-RUN pip install --no-cache-dir -e .
 
 ENV PYTHONUNBUFFERED=1
-ENV PYTHONPATH=/app/src
+ENV PYTHONPATH=/app:/app/src
 
 EXPOSE 7860
 
+# HF Spaces with Docker SDK expects the container to serve on port $PORT (7860)
 CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "7860"]

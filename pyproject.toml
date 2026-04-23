@@ -14,8 +14,10 @@ dependencies = [
     "httpx>=0.27",
     "python-dotenv>=1.0",
     "numpy>=1.26",
-    "openenv>=0.2.3",
 ]
+# Note: The `openenv` framework is spec-compliant interface, not a pip dependency.
+# If you need the Meta OpenEnv CLI tools, install separately via:
+#   pip install git+https://github.com/meta-pytorch/OpenEnv.git
 
 [project.optional-dependencies]
 dev = [
