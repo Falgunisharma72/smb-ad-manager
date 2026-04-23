@@ -1,0 +1,45 @@
+[project]
+name = "smb-ad-manager"
+version = "0.1.0"
+description = "OpenEnv-compliant RL training environment for LLM agents learning Meta Ads campaign management"
+authors = [{name = "Falguni Sharma"}, {name = "Sarthak"}, {name = "Shrishty"}]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.7",
+    "fastapi>=0.110",
+    "uvicorn[standard]>=0.29",
+    "openai>=1.50",
+    "pyyaml>=6.0",
+    "httpx>=0.27",
+    "python-dotenv>=1.0",
+    "numpy>=1.26",
+    "openenv>=0.2.3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.5",
+    "black>=24.0",
+]
+training = [
+    "trl>=0.15",
+    "unsloth",
+    "peft>=0.14",
+    "bitsandbytes>=0.45",
+    "wandb>=0.18",
+    "datasets>=3.0",
+    "accelerate>=1.0",
+]
+
+[build-system]
+requires = ["setuptools>=65", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

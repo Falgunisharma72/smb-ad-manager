@@ -1,0 +1,44 @@
+version: "1.0"
+name: smb-ad-manager
+description: >
+  RL training environment for LLM agents learning to manage Meta Ads campaigns
+  end-to-end for small businesses. Includes 5 independent reward functions with
+  proactive reward-hacking prevention.
+
+env_class: "src.smb_ads.env:Env"
+
+tasks:
+  - id: easy
+    entrypoint: "src.smb_ads.tasks.easy:EasyTask"
+    description: "Single-turn campaign reaction: given 24h of metrics, pick next action"
+
+  - id: medium
+    entrypoint: "src.smb_ads.tasks.medium:MediumTask"
+    description: "3-step campaign lifecycle with 1 policy event"
+
+  - id: hard
+    entrypoint: "src.smb_ads.tasks.hard:HardTask"
+    description: "7-step lifecycle with policy drift + mid-week budget cut"
+
+runtime:
+  vcpu: 2
+  memory_gb: 8
+  max_inference_minutes: 20
+
+rewards:
+  components:
+    - name: roas_improvement
+      range: [0.0, 1.0]
+      description: "Did the agent's action improve campaign ROAS?"
+    - name: policy_compliance
+      range: [0, 1]
+      description: "Binary: zero ad rejections (multiplicative kill switch)"
+    - name: format_compliance
+      range: [0, 1]
+      description: "Binary: all actions conform to Action Pydantic schema"
+    - name: budget_discipline
+      range: [0, 1]
+      description: "Binary: zero overspend across campaigns"
+    - name: no_cheating
+      range: [0, 1]
+      description: "Binary: agent did not exhibit any of 5 hack patterns"
