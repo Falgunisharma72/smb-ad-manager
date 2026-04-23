@@ -1,0 +1,12 @@
+# Training-only deps — NOT part of the HF Space Docker image
+# Install in Colab or on DGX:
+#   pip install -r training/requirements-training.txt
+
+unsloth[colab-new]
+trl>=0.15
+peft>=0.14
+bitsandbytes>=0.45
+wandb>=0.18
+datasets>=3.0
+accelerate>=1.0
+requests>=2.31
