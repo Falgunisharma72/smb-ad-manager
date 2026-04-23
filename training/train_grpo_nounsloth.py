@@ -16,7 +16,7 @@ from pathlib import Path
 
 os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
 
-BASE_MODEL = "meta-llama/Llama-3.2-1B-Instruct"
+BASE_MODEL = "Qwen/Qwen2.5-1.5B-Instruct"
 SFT_CHECKPOINT = "./checkpoints/sft_adapter"
 OUTPUT_DIR = "./checkpoints/grpo_final"
 SPACE_URL = os.environ.get("SPACE_URL", "https://falgunisharma-smb-ad-manager.hf.space")

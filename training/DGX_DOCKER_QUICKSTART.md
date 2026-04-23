@@ -4,6 +4,8 @@
 option there (needs driver 525+), but we have 8× A100 80GB which is more than
 enough power without it.
 
+**Model:** Qwen 2.5 1.5B Instruct (no license gate — downloads instantly).
+
 ## 1. Pull the image (once per DGX host)
 
 ```bash

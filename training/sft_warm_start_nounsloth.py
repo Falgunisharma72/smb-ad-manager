@@ -21,7 +21,7 @@ from pathlib import Path
 
 os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
 
-MODEL_NAME = "meta-llama/Llama-3.2-1B-Instruct"   # swap to 3.1-8B-Instruct if you want more power
+MODEL_NAME = "Qwen/Qwen2.5-1.5B-Instruct"   # no license gate, same chat-template interface
 MAX_SEQ_LENGTH = 2048
 SFT_DATA_PATH = "training/sft_data.jsonl"          # relative to repo root
 OUTPUT_DIR = "./checkpoints/sft_adapter"

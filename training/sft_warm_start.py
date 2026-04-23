@@ -28,7 +28,7 @@
 # Cell 2 — Config
 from pathlib import Path
 
-MODEL_NAME = "unsloth/Llama-3.2-1B-Instruct"   # swap to 3.1-8B-Instruct on A100
+MODEL_NAME = "unsloth/Qwen2.5-1.5B-Instruct"   # no license gate, swap to -7B on A100
 MAX_SEQ_LENGTH = 2048
 SFT_DATA_PATH = "sft_data.jsonl"                # relative to the notebook
 OUTPUT_DIR = "./checkpoints/sft_adapter"

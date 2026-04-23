@@ -37,12 +37,23 @@ python training/generate_sft_data.py     # → training/sft_data.jsonl
 - **Unsloth:** [github.com/unslothai/unsloth](https://github.com/unslothai/unsloth)
 - **TRL:** [huggingface.co/docs/trl](https://huggingface.co/docs/trl)
 
+## Model choice
+
+Default: **Qwen 2.5 1.5B Instruct** (`Qwen/Qwen2.5-1.5B-Instruct`)
+- No license gate (instant download)
+- Strong on structured JSON output
+- ~1.5B params — fits on any modern GPU with 4-bit quantization
+
+Alternative models you can swap in (edit `MODEL_NAME` / `BASE_MODEL` in the scripts):
+- `meta-llama/Llama-3.2-1B-Instruct` (gated — requires accepting license at HF)
+- `Qwen/Qwen2.5-3B-Instruct` (more capable, ~2× slower to train)
+
 ## Runtime expectations
 
-| Stage | Colab T4 (free) | Colab L4 (Pro) | DGX A100 |
-|---|---|---|---|
-| SFT warm-start (3 epochs × 100 examples) | ~20 min | ~8 min | ~3 min |
-| GRPO (200 steps, group size 2) | ~4-5 hrs | ~2 hrs | ~30-45 min |
+| Stage | Colab T4 (free) | Colab L4 (Pro) | DGX A100 (Unsloth) | DGX A100 (non-Unsloth) |
+|---|---|---|---|---|
+| SFT warm-start (3 epochs × 100 examples) | ~20 min | ~8 min | ~3 min | ~5-10 min |
+| GRPO (200 steps, group size 2) | ~4-5 hrs | ~2 hrs | ~30-45 min | ~25-40 min |
 
 ## Logs
 
