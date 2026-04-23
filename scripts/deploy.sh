@@ -17,6 +17,16 @@ if [ -n "$MSG" ]; then
         commit -m "$MSG" || echo "[deploy] nothing to commit"
 fi
 
+echo "[deploy] fetching latest from both remotes..."
+git fetch origin --quiet
+git fetch hf --quiet || true
+
+# If origin has commits we don't (e.g., HF auto-sync), rebase onto them first
+if ! git merge-base --is-ancestor origin/main HEAD 2>/dev/null; then
+    echo "[deploy] origin has new commits — rebasing on top..."
+    git pull origin main --rebase
+fi
+
 echo "[deploy] pushing to GitHub (origin)..."
 git push origin main
 
