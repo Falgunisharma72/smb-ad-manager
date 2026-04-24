@@ -46,7 +46,7 @@ TOTAL_STEPS = 200
 NUM_GENERATIONS = 2          # 2-GRPO (arxiv 2510.00977 — compute-efficient)
 BATCH_SIZE = 2               # prompts per step
 MAX_NEW_TOKENS = 256
-LR = 1e-5
+LR = 1e-6                    # conservative — prevents NaN from small RL signals
 TEMPERATURE = 0.7
 TOP_P = 0.9
 PROMPTS_PER_EPISODE = 50     # size of the prompt pool we sample from
@@ -243,8 +243,17 @@ for step in range(TOTAL_STEPS):
         loss.backward()
         step_losses.append(loss.item() * len(batch_prompts))
 
-    torch.nn.utils.clip_grad_norm_(trainable_params, max_norm=1.0)
-    optimizer.step()
+    # Tight clip + NaN check before optimizer step
+    torch.nn.utils.clip_grad_norm_(trainable_params, max_norm=0.1)
+    has_nan = any(
+        p.grad is not None and (torch.isnan(p.grad).any() or torch.isinf(p.grad).any())
+        for p in trainable_params
+    )
+    if has_nan:
+        print(f"[step {step}] NaN/Inf in grads — skipping optimizer step")
+        optimizer.zero_grad()
+    else:
+        optimizer.step()
 
     # ─── Logging ────────────────────────────────────────────────────────
     if step % LOG_EVERY == 0 or step == TOTAL_STEPS - 1:
