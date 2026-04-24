@@ -210,7 +210,6 @@ cfg = GRPOConfig(
     max_prompt_length=512,
     max_completion_length=256,
     seed=42,
-    save_safetensors=True,
     remove_unused_columns=False,
 )
 
