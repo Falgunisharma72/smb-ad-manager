@@ -43,12 +43,17 @@ print(f"Training: {TOTAL_STEPS} steps, group size {NUM_GENERATIONS} (2-GRPO)")
 import torch
 from unsloth import FastLanguageModel
 
-# dtype=bfloat16 forces consistent dtype in LoRA matmul (fixes "Half vs Float" mismatch)
+# fast_inference=True uses vLLM for generation and bypasses the buggy
+# Unsloth matmul_lora kernel that crashes with "Half vs Float" on GRPO+4bit.
+# gpu_memory_utilization leaves room for GRPO's reward/KL computations.
 model, tokenizer = FastLanguageModel.from_pretrained(
     model_name=SFT_CHECKPOINT,
     max_seq_length=MAX_SEQ_LENGTH,
     load_in_4bit=True,
     dtype=torch.bfloat16,
+    fast_inference=True,
+    max_lora_rank=16,
+    gpu_memory_utilization=0.6,
 )
 FastLanguageModel.for_training(model)
 
