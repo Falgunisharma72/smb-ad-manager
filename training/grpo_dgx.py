@@ -84,6 +84,9 @@ model.train()
 
 # ─── Reward function (HTTP into the HF Space env) ────────────────────────
 SESSION = requests.Session()
+SESSION.verify = False       # DGX has MITM proxy; skip SSL verify for HF Space calls
+import urllib3
+urllib3.disable_warnings()
 _JSON_RE = re.compile(r"\{.*\}", re.DOTALL)
 
 
@@ -111,16 +114,29 @@ def _call_space(path: str, payload: dict, retries: int = 3):
 
 
 def env_reward(completion_text: str, task_id: str = "easy") -> float:
+    """Partial-credit reward — even malformed outputs get some signal for GRPO."""
     action = _extract_action(completion_text)
     if action is None:
         return 0.0
+    if not isinstance(action, dict):
+        return 0.05
+    has_tool = "tool" in action
+    has_reasoning = "reasoning" in action
+    has_args = "args" in action
+    base = 0.05
+    base += 0.10 if has_tool else 0
+    base += 0.05 if has_reasoning else 0
+    base += 0.05 if has_args else 0
+    if not has_tool:
+        return base
     r = _call_space("/reset", {"task_id": task_id, "seed": 42})
     if r is None:
-        return 0.0
+        return base
     s = _call_space("/step", {"action": action})
     if s is None:
-        return 0.0
-    return float(s.get("reward", {}).get("score", 0.0))
+        return base + 0.10
+    env_score = float(s.get("reward", {}).get("score", 0.0))
+    return max(base + 0.15, env_score)
 
 
 # ─── Build prompt pool from the env ──────────────────────────────────────
