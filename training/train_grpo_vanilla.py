@@ -17,6 +17,16 @@ from pathlib import Path
 
 os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
 
+# Monkeypatch — transformers 5.x removed TRANSFORMERS_CACHE but llm_blender (used
+# transitively by TRL's judges module) still imports it. Provide a shim.
+import transformers.utils.hub as _hub
+if not hasattr(_hub, "TRANSFORMERS_CACHE"):
+    try:
+        from huggingface_hub import constants as _hf_const
+        _hub.TRANSFORMERS_CACHE = _hf_const.HF_HUB_CACHE
+    except Exception:
+        _hub.TRANSFORMERS_CACHE = str(Path.home() / ".cache" / "huggingface" / "hub")
+
 # ─── Config ──────────────────────────────────────────────────────────────
 BASE_MODEL = "Qwen/Qwen2.5-1.5B-Instruct"
 SFT_ADAPTER_PATH = "./checkpoints/sft_adapter"
