@@ -192,6 +192,10 @@ print(f"Collected {len(prompts_data)} prompts")
 from datasets import Dataset
 prompt_ds = Dataset.from_list(prompts_data)
 
+# Initialize warnings_issued dict — TRL expects it, newer transformers doesn't set it up
+if not hasattr(merged_model, "warnings_issued"):
+    merged_model.warnings_issued = {}
+
 # ─── TRL GRPO training ──────────────────────────────────────────────────
 from trl import GRPOConfig, GRPOTrainer
 
