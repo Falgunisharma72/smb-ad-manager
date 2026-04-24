@@ -40,12 +40,15 @@ print(f"Training: {TOTAL_STEPS} steps, group size {NUM_GENERATIONS} (2-GRPO)")
 
 # %%
 # Cell 3 — Load SFT-warm-started model
+import torch
 from unsloth import FastLanguageModel
 
+# dtype=bfloat16 forces consistent dtype in LoRA matmul (fixes "Half vs Float" mismatch)
 model, tokenizer = FastLanguageModel.from_pretrained(
     model_name=SFT_CHECKPOINT,
     max_seq_length=MAX_SEQ_LENGTH,
     load_in_4bit=True,
+    dtype=torch.bfloat16,
 )
 FastLanguageModel.for_training(model)
 
