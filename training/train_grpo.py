@@ -40,20 +40,18 @@ print(f"Training: {TOTAL_STEPS} steps, group size {NUM_GENERATIONS} (2-GRPO)")
 
 # %%
 # Cell 3 — Load SFT-warm-started model
+# load_in_4bit=False + bf16 avoids both:
+#   - the Unsloth matmul_lora "Half vs Float" bug (4-bit path)
+#   - the vllm dep conflict (fast_inference path)
+# Qwen 1.5B in bf16 needs ~7GB — fits easily on L4 24GB.
 import torch
 from unsloth import FastLanguageModel
 
-# fast_inference=True uses vLLM for generation and bypasses the buggy
-# Unsloth matmul_lora kernel that crashes with "Half vs Float" on GRPO+4bit.
-# gpu_memory_utilization leaves room for GRPO's reward/KL computations.
 model, tokenizer = FastLanguageModel.from_pretrained(
     model_name=SFT_CHECKPOINT,
     max_seq_length=MAX_SEQ_LENGTH,
-    load_in_4bit=True,
+    load_in_4bit=False,
     dtype=torch.bfloat16,
-    fast_inference=True,
-    max_lora_rank=16,
-    gpu_memory_utilization=0.6,
 )
 FastLanguageModel.for_training(model)
 
