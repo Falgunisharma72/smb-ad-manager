@@ -106,9 +106,13 @@ export default function DashboardPage() {
             </p>
 
             <div className="flex flex-wrap gap-3">
-              <Link href="/playground" className="btn btn-primary">
+              <Link href="/founder" className="btn btn-primary">
+                <Sparkles className="w-4 h-4" />
+                Try Founder Mode
+              </Link>
+              <Link href="/playground" className="btn btn-ghost border border-border">
                 <Cpu className="w-4 h-4" />
-                Try the playground
+                Researcher playground
               </Link>
               <a
                 href="https://github.com/Falgunisharma72/smb-ad-manager"
@@ -193,19 +197,29 @@ export default function DashboardPage() {
         </StaggerChildren>
       </section>
 
-      {/* Coming-soon banner for the other pages */}
+      {/* Site map — all pages now live */}
       <FadeIn delay={0.2}>
-        <div className="rounded-2xl border border-dashed border-border p-6 flex items-start gap-4 bg-white/40">
-          <div className="w-10 h-10 rounded-xl bg-accent-lavender/40 flex items-center justify-center shrink-0">
-            <Sparkles className="w-5 h-5 text-foreground/70" />
-          </div>
-          <div>
-            <h3 className="font-medium mb-1">More coming in next build pass</h3>
-            <p className="text-sm text-muted-foreground">
-              Adversarial mode demo, training metrics dashboards, team page —
-              currently under construction. The playground is fully functional.
-            </p>
-          </div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <Link href="/founder" className="group rounded-2xl bg-white/70 hover:bg-white border border-border p-4 transition shadow-soft hover:shadow-soft-md">
+            <div className="text-xs uppercase tracking-wider text-primary font-semibold mb-1">Founder Mode</div>
+            <div className="font-medium mb-1">Try the AI Ad Manager</div>
+            <div className="text-xs text-muted-foreground">Type a brief, watch a 7-day plan reveal</div>
+          </Link>
+          <Link href="/adversarial" className="group rounded-2xl bg-white/70 hover:bg-white border border-border p-4 transition shadow-soft hover:shadow-soft-md">
+            <div className="text-xs uppercase tracking-wider text-primary font-semibold mb-1">Adversarial</div>
+            <div className="font-medium mb-1">Watch hacks get caught</div>
+            <div className="text-xs text-muted-foreground">5 detectors firing live on attacker prompts</div>
+          </Link>
+          <Link href="/metrics" className="group rounded-2xl bg-white/70 hover:bg-white border border-border p-4 transition shadow-soft hover:shadow-soft-md">
+            <div className="text-xs uppercase tracking-wider text-primary font-semibold mb-1">Metrics</div>
+            <div className="font-medium mb-1">Training results</div>
+            <div className="text-xs text-muted-foreground">Reward 0.41 → 0.71 over 200 GRPO steps</div>
+          </Link>
+          <Link href="/about" className="group rounded-2xl bg-white/70 hover:bg-white border border-border p-4 transition shadow-soft hover:shadow-soft-md">
+            <div className="text-xs uppercase tracking-wider text-primary font-semibold mb-1">About</div>
+            <div className="font-medium mb-1">Team + architecture</div>
+            <div className="text-xs text-muted-foreground">3 bonus tracks claimed, 4 citations</div>
+          </Link>
         </div>
       </FadeIn>
     </div>

@@ -12,7 +12,14 @@ export function middleware(req: NextRequest) {
   if (
     PUBLIC_PATHS.includes(pathname) ||
     pathname.startsWith("/_next") ||
-    pathname.startsWith("/public")
+    pathname.startsWith("/public") ||
+    pathname.startsWith("/trajectories/") ||
+    pathname.startsWith("/charts/") ||
+    pathname.endsWith(".json") ||
+    pathname.endsWith(".png") ||
+    pathname.endsWith(".jpg") ||
+    pathname.endsWith(".svg") ||
+    pathname.endsWith(".webp")
   ) {
     return NextResponse.next();
   }

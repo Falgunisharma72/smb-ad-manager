@@ -104,6 +104,33 @@
     background-color: hsl(var(--muted));
   }
 
+  .form-input {
+    width: 100%;
+    border-radius: 0.625rem;
+    border: 1px solid hsl(var(--border));
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 0.625rem 0.875rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: hsl(var(--foreground));
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .form-input::placeholder {
+    color: hsl(var(--muted-foreground));
+  }
+  .form-input:focus {
+    outline: none;
+    border-color: hsl(var(--primary));
+    box-shadow: 0 0 0 3px hsl(var(--primary) / 0.15);
+  }
+
+  .shadow-soft {
+    box-shadow: 0 2px 12px rgba(60, 50, 40, 0.06);
+  }
+  .shadow-soft-md {
+    box-shadow: 0 6px 24px rgba(60, 50, 40, 0.1);
+  }
+
   .text-gradient {
     background-image: linear-gradient(90deg, #9FB89A 0%, #C8B5E0 50%, #F4BFAA 100%);
     background-size: 200% 100%;

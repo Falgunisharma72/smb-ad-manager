@@ -3,15 +3,16 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Sparkles, LayoutDashboard, Cpu, ShieldAlert, LineChart, LogOut, Info } from "lucide-react";
+import { Sparkles, LayoutDashboard, Cpu, ShieldAlert, LineChart, LogOut, Info, Wand2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/founder", label: "Founder", icon: Wand2, accent: true },
   { href: "/playground", label: "Playground", icon: Cpu },
-  { href: "/adversarial", label: "Adversarial", icon: ShieldAlert, disabled: true },
-  { href: "/metrics", label: "Metrics", icon: LineChart, disabled: true },
-  { href: "/about", label: "About", icon: Info, disabled: true },
+  { href: "/adversarial", label: "Adversarial", icon: ShieldAlert },
+  { href: "/metrics", label: "Metrics", icon: LineChart },
+  { href: "/about", label: "About", icon: Info },
 ];
 
 export function Navbar() {
@@ -77,6 +78,11 @@ export function Navbar() {
                 {item.disabled && (
                   <span className="text-[10px] px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
                     soon
+                  </span>
+                )}
+                {"accent" in item && item.accent && !active && (
+                  <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-gradient-to-r from-primary-soft to-accent-lavender/70 text-primary font-semibold">
+                    new
                   </span>
                 )}
               </Link>
