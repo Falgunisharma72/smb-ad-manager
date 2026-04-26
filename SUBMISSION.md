@@ -112,6 +112,11 @@ Both stages run on **a single Colab L4 in under 90 minutes** wall-clock.
 Both converged. The 3B's slightly lower entropy (0.18) becomes load-bearing in
 Stage 2 — see **Distribution sharpening** below.
 
+![SFT loss + token accuracy over 3 epochs](frontend/public/charts/sft_loss_curve.png)
+
+*Generated from console output of the 3B SFT run on 2026-04-26 (Colab L4).
+Loss drops cleanly from 2.32 → 0.165, token accuracy rises 57% → 95.6%.*
+
 ### Stage 2 — GRPO refinement
 
 | Model | Reward start | Reward end | Δ | grad_norm | reward_std | Result |
@@ -265,6 +270,20 @@ We surface these on the live `/metrics` page too — judges can verify.
 | 🎯 **Patronus AI** | Mid-episode `p6_health_disclaimer` drift — agent detects via `get_policy_updates`, repairs via `rewrite_creative` |
 | 🎯 **Halluminate** | `r5_no_cheating` verifies the agent only cites metrics it actually fetched |
 | 🎯 **Scaler AI Labs** | 5 reward components + 5 anti-hack detectors logged separately, visible per step |
+
+---
+
+## Experiment tracking
+
+All runs were instrumented:
+
+| Stage | Tracker | Where to inspect |
+|---|---|---|
+| SFT 1.5B / 3B | TensorBoard (local) + console-logged metrics | Loss curve above (built from console output); raw logs in repo `/sft_3b_run.log` if needed |
+| GRPO 1.5B | **Weights & Biases (public)** | <https://wandb.ai/f-banasthali-vidyapith/smb-ad-manager/runs/n3f4majc> |
+| GRPO 3B v1 / v2 | **Weights & Biases (public)** | <https://wandb.ai/f-banasthali-vidyapith/smb-ad-manager/runs/9egwjils> |
+
+Project page: <https://wandb.ai/f-banasthali-vidyapith/smb-ad-manager>
 
 ---
 
