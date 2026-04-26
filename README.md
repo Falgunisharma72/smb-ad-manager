@@ -25,11 +25,16 @@ app_port: 7860
 | Artifact | Link |
 |---|---|
 | 🌐 **Live env service** | <https://falgunisharma-smb-ad-manager.hf.space> |
-| 🤖 **Trained SFT adapter** | <https://huggingface.co/Falgunisharma/smb-ad-manager-sft> |
-| 🚀 **Trained GRPO adapter** | <https://huggingface.co/Falgunisharma/smb-ad-manager-grpo> |
-| 📊 **W&B training run** | <https://wandb.ai/f-banasthali-vidyapith/smb-ad-manager/runs/n3f4majc> |
-| 💻 **Source** | <https://github.com/Falgunisharma72/smb-ad-manager> |
 | 🎬 **Demo website** | <https://smb-ad-manager.vercel.app> _(login: `admin` / `hackathon2026`)_ |
+| 📝 **Full submission writeup** | [SUBMISSION.md](./SUBMISSION.md) — results comparison + scaling-study research finding |
+| ✍️ **Blog post** | [docs/HF_BLOG.md](./docs/HF_BLOG.md) (HF blog publication TBD) |
+| 🚀 **Click-to-run Colab notebook** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Falgunisharma72/smb-ad-manager/blob/main/notebooks/train_smb_ads.ipynb) |
+| 🤖 **SFT 1.5B adapter** | <https://huggingface.co/Falgunisharma/smb-ad-manager-sft> |
+| 🚀 **GRPO 1.5B adapter** (the +73% win) | <https://huggingface.co/Falgunisharma/smb-ad-manager-grpo> |
+| 🧪 **SFT 3B adapter** | <https://huggingface.co/Falgunisharma/smb-ad-manager-sft-3b> |
+| 🧪 **GRPO 3B v2 adapter** (research artifact) | <https://huggingface.co/Falgunisharma/smb-ad-manager-grpo-3b-v2> |
+| 📊 **W&B project** | <https://wandb.ai/f-banasthali-vidyapith/smb-ad-manager> ([1.5B run](https://wandb.ai/f-banasthali-vidyapith/smb-ad-manager/runs/n3f4majc) · [3B v2 run](https://wandb.ai/f-banasthali-vidyapith/smb-ad-manager/runs/9egwjils)) |
+| 💻 **Source** | <https://github.com/Falgunisharma72/smb-ad-manager> |
 
 ---
 
