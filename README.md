@@ -29,7 +29,7 @@ app_port: 7860
 | 🚀 **Trained GRPO adapter** | <https://huggingface.co/Falgunisharma/smb-ad-manager-grpo> |
 | 📊 **W&B training run** | <https://wandb.ai/f-banasthali-vidyapith/smb-ad-manager/runs/n3f4majc> |
 | 💻 **Source** | <https://github.com/Falgunisharma72/smb-ad-manager> |
-| 🎬 **Demo website** | (Vercel deploy in progress) |
+| 🎬 **Demo website** | _Pending — Vercel URL will be filled in after deploy_ |
 
 ---
 
@@ -156,6 +156,17 @@ npm install
 npm run dev
 # Open http://localhost:3000 — login: admin / hackathon2026
 ```
+
+### Deploy the website to Vercel
+
+```bash
+cd frontend
+npx vercel@latest --prod
+```
+
+First run will prompt for login + project name + scope. The default Next.js
+auto-detection works — no `vercel.json` needed. The cookie-gated login uses
+the password `hackathon2026` (shipped only for hackathon judging).
 
 ### Run the test suite
 

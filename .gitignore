@@ -17,3 +17,5 @@ notebooks/.ipynb_checkpoints/
 dist/
 build/
 *.egg-info/
+.vercel/
+frontend/.vercel/
