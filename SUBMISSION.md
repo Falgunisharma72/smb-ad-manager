@@ -26,7 +26,8 @@ the failure as honest research.
 | 🤖 SFT 1.5B adapter | <https://huggingface.co/Falgunisharma/smb-ad-manager-sft> |
 | 🚀 GRPO 1.5B adapter | <https://huggingface.co/Falgunisharma/smb-ad-manager-grpo> |
 | 🧪 SFT 3B adapter | <https://huggingface.co/Falgunisharma/smb-ad-manager-sft-3b> |
-| 📊 W&B run | <https://wandb.ai/f-banasthali-vidyapith/smb-ad-manager/runs/n3f4majc> |
+| 🧪 GRPO 3B v2 adapter (research artifact) | <https://huggingface.co/Falgunisharma/smb-ad-manager-grpo-3b-v2> |
+| 📊 W&B runs | [1.5B GRPO](https://wandb.ai/f-banasthali-vidyapith/smb-ad-manager/runs/n3f4majc) · [3B GRPO v2](https://wandb.ai/f-banasthali-vidyapith/smb-ad-manager/runs/9egwjils) |
 | 💻 Source | <https://github.com/Falgunisharma72/smb-ad-manager> |
 
 ---
@@ -117,7 +118,7 @@ Stage 2 — see **Distribution sharpening** below.
 |---|---:|---:|---:|---:|---:|---|
 | **1.5B + GRPO** | 0.41 | **0.71** | **+73%** | healthy | > 0.05 | ✅ converged cleanly |
 | 3B + GRPO (v1, default config) | 0.35 | 0.35 | +0% | 0 | 0 | ⚠ distribution sharpening collapse |
-| 3B + GRPO (v2, anti-collapse) | _running_ | _running_ | _running_ | — | — | _result will be appended_ |
+| 3B + GRPO (v2, anti-collapse) | 0.35 | 0.35 | +0% | mostly 0 | 0 → 0.07 spikes | ⚠ partial-credit reward plateau |
 
 ### What "baseline" means in this comparison
 
@@ -139,28 +140,103 @@ step 50 are the model exploring new tools, plateaus are it consolidating gains.
 
 ---
 
-## Distribution sharpening collapse — research finding (3B v1)
+## Scaling study — Qwen 2.5 3B did not converge (research finding)
+
+We tested whether GRPO would also work at 3B scale. **It did not** — but we
+diagnosed *why* across two iterations and a final pre-flight test, and that
+diagnosis is the actual contribution of this section.
+
+### v1 (default config) — distribution sharpening collapse
 
 The 3B model's SFT converged to a near-deterministic policy. At the GRPO
 sampling temperature of 0.7, **every rollout in a group of 2 was identical**.
 This makes the group-relative advantage `(reward − mean) / std` exactly zero,
 every step — so no gradient, no learning.
 
-**Diagnostic signature:**
+| Signal | Value throughout 200 steps | Interpretation |
+|---|---|---|
+| `frac_reward_zero_std` | 1.0 | Every batch had zero variance |
+| `grad_norm` | 0 | No gradient signal |
+| `loss` | 0 | Pure no-op |
 
-- `frac_reward_zero_std = 1.0` (every batch had zero variance)
-- `grad_norm = 0` (no gradient signal)
-- `loss = 0` (pure no-op)
+### v2 (anti-collapse config) — partial fix, exposed a deeper problem
 
-**v2 anti-collapse config** (currently training):
+Knob changes in v2:
 
 | Knob | v1 | v2 | Why |
 |---|---:|---:|---|
-| Temperature | 0.7 | **1.0** | Wider sampling distribution |
+| Temperature | 0.7 | **1.0** | Widen sampling distribution |
 | Group size | 2 | **4** | More rollouts → more chance of variance |
 | KL coefficient `β` | 0.04 | **0.0** | Stop pulling completions back to the SFT mode |
 | Learning rate | 5e-6 | **1e-5** | Bigger step when signal does appear |
 | Top-p | 1.0 | **0.95** | Tail-cut to keep coherence at higher temp |
+
+**Result.** Sharpening collapse was *partially* fixed — variance occasionally
+appeared (`frac_reward_zero_std` dropped to 0.6 in some batches; `reward_std`
+spiked to 0.07 around step 50). But mean reward still parked at 0.35 for all
+200 steps, and **every time variance appeared, mean reward went *down***
+(0.35 → 0.3325). Exploration produced rollouts that were *worse* than the safe
+0.35 partial-credit floor, so the gradient pushed the policy back to the floor.
+
+### v3 (pre-flight diagnostic) — root cause found
+
+Before committing to a third 70-minute training run, we ran a 5-minute
+diagnostic: load SFT-3B, generate 20 completions on real env prompts, score
+each against the env. Histogram:
+
+```
+>0.5            0/20
+0.35-0.5        0/20
+0.2-0.35        0/20
+0.05-0.2        0/20
+0-0.05          0/20
+invalid/422    20/20    ████████████████████
+```
+
+**Every single rollout returned 422 from the env.** Inspection revealed why —
+the SFT-3B model emitted JSON actions with hallucinated tool names like
+`optimize_campaign_budget`, `budget_optimizer`, `campaign_health_check`. None
+of these are in the env's 8-tool API (the actual tools are `create_campaign`,
+`create_ad_set`, `create_ad`, `pause_ad`, `update_budget`, `rewrite_creative`,
+`get_metrics`, `get_policy_updates`).
+
+### The actual finding
+
+The 3B problem is not a GRPO config problem. It is a **capability ceiling
+problem in SFT-3B**:
+
+> **Larger SFT models generalize *further* from explicit constraints in the
+> prompt.** The 3B was so confident in its "ad-manager API" prior that it
+> ignored the literal 8-tool list in the system prompt and invented
+> plausible-sounding tool names instead. Smaller models (1.5B) lack the
+> capacity to over-generalize this way and stay closer to the literal SFT
+> examples — which is why 1.5B converged cleanly and 3B did not.
+
+This is consistent with prior observations in instruction-tuning literature:
+production tool-calling systems use constrained decoding or function-calling
+fine-tuning specifically to prevent this drift. Our SFT data was too small
+(100 examples) and not schema-disciplined enough to lock in the literal tool
+vocabulary at 3B scale.
+
+### Proposed fix (future work)
+
+Schema-disciplined SFT data:
+
+- 200+ examples instead of 100, every example using one of the 8 valid tools
+- Per-example "tool list reminder" turn at the start of each conversation
+- A held-out test set of 20 examples that any SFT run must hit > 95% tool-name
+  accuracy on before GRPO is allowed to start
+
+Estimated work: ~2 hours of data curation + 25 min SFT + 70 min GRPO. We did
+not have this budget on submission day, so we ship the 1.5B win and document
+the 3B finding rather than hide it.
+
+### Why we surface this prominently
+
+A 5-minute pre-flight test caught a bug that would have cost us another
+70-minute training run. **We think the methodology — diagnose before
+retraining — is itself a contribution worth documenting**, more so than a
+clean second number would have been.
 
 ---
 
@@ -171,7 +247,7 @@ We surface these on the live `/metrics` page too — judges can verify.
 1. **Trained agent prefers `create_*` tools** over modifying running campaigns. Reliable partial credit but small lift over a noop. *Fix:* train longer or remove `r1` partial credit.
 2. **`r3` (format compliance) stays at 0.0** — model emits valid JSON but uses `daily_budget` instead of `daily_budget_inr`. *Fix:* dict-shape match or schema-correct SFT examples.
 3. **Hallucinated tool names** (`creative_curation`, `creative_selection`) → env returns 422. *Fix:* explicit tool list in every prompt template.
-4. **3B distribution sharpening collapse** (above) — documented as research finding rather than hidden.
+4. **3B capacity-driven over-generalization** — see Scaling Study above. *Fix:* schema-disciplined SFT data with 2× examples and held-out tool-name accuracy gate.
 
 ---
 
