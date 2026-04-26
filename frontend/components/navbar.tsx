@@ -55,16 +55,13 @@ export function Navbar() {
             return (
               <Link
                 key={item.href}
-                href={item.disabled ? "#" : item.href}
-                aria-disabled={item.disabled}
+                href={item.href}
                 className={cn(
                   "relative px-3.5 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition",
                   active
                     ? "text-primary"
-                    : "text-foreground/70 hover:text-foreground",
-                  item.disabled && "opacity-40 cursor-not-allowed"
+                    : "text-foreground/70 hover:text-foreground"
                 )}
-                onClick={(e) => item.disabled && e.preventDefault()}
               >
                 <Icon className="w-4 h-4" strokeWidth={2} />
                 {item.label}
@@ -74,11 +71,6 @@ export function Navbar() {
                     className="absolute inset-0 bg-primary-soft rounded-lg -z-10"
                     transition={{ type: "spring", stiffness: 250, damping: 28 }}
                   />
-                )}
-                {item.disabled && (
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
-                    soon
-                  </span>
                 )}
                 {"accent" in item && item.accent && !active && (
                   <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-gradient-to-r from-primary-soft to-accent-lavender/70 text-primary font-semibold">
