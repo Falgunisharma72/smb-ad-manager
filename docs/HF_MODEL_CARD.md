@@ -142,7 +142,27 @@ size 2 (2-GRPO, [arxiv 2510.00977](https://arxiv.org/abs/2510.00977)),
 | Reward std | > 0.05 (healthy) | > 0.05 | — |
 | Runtime | — | 51 min on L4 | — |
 
+The 5-component breakdown — `r1_roas` lifts to 0.62, `r2/r4/r5` saturate at
+1.0 (provably policy-clean, budget-clean, no fabricated metrics), `r3_format`
+stays at 0.0 (documented honest weakness):
+
+![5-component reward breakdown - r1 0.62, r2 1.0, r3 0.0, r4 1.0, r5 1.0](https://raw.githubusercontent.com/Falgunisharma72/smb-ad-manager/main/docs/metrics_breakdown3.png)
+
 Public W&B run: <https://wandb.ai/f-banasthali-vidyapith/smb-ad-manager/runs/n3f4majc>
+
+### What this looks like in the live demo
+
+The deployed website surfaces these results on a dedicated metrics page:
+
+![Metrics hero on the live site - 200 GRPO steps, 51 minutes, +73%](https://raw.githubusercontent.com/Falgunisharma72/smb-ad-manager/main/docs/metrics_breakdown1.png)
+
+And lets a small business owner experience the agent in real time:
+
+![Founder Mode form on the live site - business profile + 7-day plan reveal](https://raw.githubusercontent.com/Falgunisharma72/smb-ad-manager/main/docs/founder_demo.png)
+
+For the adversarial side — 5 anti-hack detectors firing on attacker presets:
+
+![Adversarial mode - 5 detectors and 4 attacker presets](https://raw.githubusercontent.com/Falgunisharma72/smb-ad-manager/main/docs/adversial_caught.png)
 
 ---
 

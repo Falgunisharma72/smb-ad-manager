@@ -44,6 +44,16 @@ Documented one clean win and one diagnostic-driven scaling-study failure (3B). 5
 | 📊 **W&B project** | <https://wandb.ai/f-banasthali-vidyapith/smb-ad-manager> ([1.5B run](https://wandb.ai/f-banasthali-vidyapith/smb-ad-manager/runs/n3f4majc) · [3B v2 run](https://wandb.ai/f-banasthali-vidyapith/smb-ad-manager/runs/9egwjils)) |
 | 💻 **Source** | <https://github.com/Falgunisharma72/smb-ad-manager> |
 
+### Screenshots from the live demo
+
+| | |
+|---|---|
+| ![Founder Mode](docs/founder_demo.png) | ![Adversarial detectors firing](docs/adversial_caught.png) |
+| **Founder Mode** — SMB owner UX | **Adversarial Mode** — 5 detectors + 4 attacker presets |
+
+Full-resolution captures of the `/metrics` page (training results, curves,
+and 5-component reward breakdown) are embedded in [SUBMISSION.md](./SUBMISSION.md).
+
 ---
 
 ## The problem

@@ -34,6 +34,33 @@ the failure as honest research.
 
 ---
 
+## From the live demo
+
+Three screenshots captured from the deployed Vercel site
+(<https://smb-ad-manager.vercel.app>), showing the project in real use.
+
+### Founder Mode — the SMB-owner UX
+
+![Founder mode form filled with Skincare preset](docs/founder_demo.png)
+
+A small business owner describes their business in 5 fields and the trained
+agent runs a 7-day simulated campaign showing exactly what it would do, and
+why. Right column explains the framework: trained on a 1.5B-param model
+across ~200 RL steps; every action shows its reasoning, daily metrics, and
+reward score; a no-AI baseline runs side-by-side as the lift comparison.
+
+### Adversarial Mode — the anti-hack detectors firing in real time
+
+![Adversarial page showing 5 detectors and 4 attacker presets](docs/adversial_caught.png)
+
+The 5 anti-hack detectors are the **first-class differentiator**. This page
+lets a judge fire 4 known reward-hacking attacker presets (pause-everything,
+cite-fake-metrics, violate-policy, spam-tool-calls) and watch the
+corresponding detector light up red. This is what "reward-hardened" actually
+*looks like* in production.
+
+---
+
 ## What we built
 
 | Artifact | What it is |
@@ -172,8 +199,27 @@ std at every step:
 
 ![Reward std over 200 GRPO steps](frontend/public/charts/1.png)
 
-> **For richer visuals** — screenshots of the live `/founder`, `/adversarial`,
-> and `/metrics` pages will be added to `docs/screenshots/` once captured.
+### Live `/metrics` page — what a judge sees
+
+The deployed website surfaces the training results on a dedicated `/metrics`
+page. Three screenshots, in the order a judge would scroll through them:
+
+**1. Headline numbers and the W&B run link.**
+
+![Metrics page hero — 200 GRPO steps, 51 minutes, +73% reward improvement](docs/metrics_breakdown1.png)
+
+**2. Training curves taken directly from the W&B run** — reward / mean and
+the policy-loss panel showing healthy advantage-weighted log-probs:
+
+![Training curves — reward climbing 0.41 to 0.71 and policy loss oscillating near zero](docs/metrics_breakdown2.png)
+
+**3. The 5-component reward breakdown** — average score per reward component
+across the trained agent's runs against the live env. r2 / r4 / r5 saturate
+at 1.0 (provably policy-clean, budget-clean, and no fabricated metrics).
+r1 (ROAS) lifts to 0.62. r3 (format) stays at 0.00, our documented honest
+weakness:
+
+![5-component reward breakdown bars — r1 0.62, r2 1.0, r3 0.0, r4 1.0, r5 1.0](docs/metrics_breakdown3.png)
 
 ---
 

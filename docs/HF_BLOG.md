@@ -44,6 +44,12 @@ And alongside those, **5 anti-hack detectors** fire on every step:
 real time. **Every detector firing is a separate reward channel and a
 separate failure log.**
 
+This is what "reward-hardened" actually looks like in the deployed app — five
+detectors at the top, four attacker presets a judge can fire against the
+live env, watching them light up red:
+
+![Adversarial mode - 5 detectors and 4 attacker presets](https://raw.githubusercontent.com/Falgunisharma72/smb-ad-manager/main/docs/adversial_caught.png)
+
 The intent: the env teaches the *right* behaviour, not just any behaviour
 that earns reward.
 
@@ -198,6 +204,12 @@ is, we think, more valuable than a clean second number would have been.
 ---
 
 ## Honest limitations
+
+The 5-component breakdown is visible in real time on the live demo's
+`/metrics` page — `r1_roas` 0.62, `r2/r4/r5` saturated at 1.0, `r3_format`
+honestly stuck at 0.00:
+
+![5-component reward breakdown bars - r1 0.62, r2 1.0, r3 0.0, r4 1.0, r5 1.0](https://raw.githubusercontent.com/Falgunisharma72/smb-ad-manager/main/docs/metrics_breakdown3.png)
 
 We surface these on the live demo's `/metrics` page too:
 
