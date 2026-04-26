@@ -29,6 +29,8 @@ app_port: 7860
 | 📝 **Full submission writeup** | [SUBMISSION.md](./SUBMISSION.md) — results comparison + scaling-study research finding |
 | ✍️ **Blog post** | [docs/HF_BLOG.md](./docs/HF_BLOG.md) (HF blog publication TBD) |
 | 🚀 **Click-to-run Colab notebook** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Falgunisharma72/smb-ad-manager/blob/main/notebooks/train_smb_ads.ipynb) |
+| 📓 **Live training Colab #1** | <https://colab.research.google.com/drive/1MMqERXe2nzhOcKeIrdWSV2gT0u4V-cXy?usp=sharing> |
+| 📓 **Live training Colab #2** | <https://colab.research.google.com/drive/1ZwiJjy9TJoqx5G54xOKkdlq41VhexJ1S?usp=sharing> |
 | 🤖 **SFT 1.5B adapter** | <https://huggingface.co/Falgunisharma/smb-ad-manager-sft> |
 | 🚀 **GRPO 1.5B adapter** (the +73% win) | <https://huggingface.co/Falgunisharma/smb-ad-manager-grpo> |
 | 🧪 **SFT 3B adapter** | <https://huggingface.co/Falgunisharma/smb-ad-manager-sft-3b> |

@@ -195,7 +195,9 @@ These are surfaced on the live demo's `/metrics` page — judges can verify.
 - **Full submission writeup:** <https://github.com/Falgunisharma72/smb-ad-manager/blob/main/SUBMISSION.md>
 - **Live env (HF Space):** <https://falgunisharma-smb-ad-manager.hf.space>
 - **Live demo (Vercel):** <https://smb-ad-manager.vercel.app> · login `admin` / `hackathon2026`
-- **Click-to-run training notebook:** [Open in Colab](https://colab.research.google.com/github/Falgunisharma72/smb-ad-manager/blob/main/notebooks/train_smb_ads.ipynb)
+- **Click-to-run training notebook (in-repo):** [Open in Colab](https://colab.research.google.com/github/Falgunisharma72/smb-ad-manager/blob/main/notebooks/train_smb_ads.ipynb)
+- **Live training Colab #1:** <https://colab.research.google.com/drive/1MMqERXe2nzhOcKeIrdWSV2gT0u4V-cXy?usp=sharing>
+- **Live training Colab #2:** <https://colab.research.google.com/drive/1ZwiJjy9TJoqx5G54xOKkdlq41VhexJ1S?usp=sharing>
 - **Sibling adapters:**
   - SFT 1.5B: <https://huggingface.co/Falgunisharma/smb-ad-manager-sft>
   - SFT 3B: <https://huggingface.co/Falgunisharma/smb-ad-manager-sft-3b>

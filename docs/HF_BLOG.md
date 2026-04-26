@@ -232,6 +232,9 @@ Three things we'd carry into the next project:
 - **SFT 3B adapter:** <https://huggingface.co/Falgunisharma/smb-ad-manager-sft-3b>
 - **GRPO 3B v2 (the documented failure):** <https://huggingface.co/Falgunisharma/smb-ad-manager-grpo-3b-v2>
 - **W&B project:** <https://wandb.ai/f-banasthali-vidyapith/smb-ad-manager>
+- **Live training Colab #1:** <https://colab.research.google.com/drive/1MMqERXe2nzhOcKeIrdWSV2gT0u4V-cXy?usp=sharing>
+- **Live training Colab #2:** <https://colab.research.google.com/drive/1ZwiJjy9TJoqx5G54xOKkdlq41VhexJ1S?usp=sharing>
+- **Click-to-run training notebook (in-repo):** [Open in Colab](https://colab.research.google.com/github/Falgunisharma72/smb-ad-manager/blob/main/notebooks/train_smb_ads.ipynb)
 
 ## Citations
 
