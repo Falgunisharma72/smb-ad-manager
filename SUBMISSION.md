@@ -132,13 +132,20 @@ any RL. Its reward score on the env is 0.41 for 1.5B (and 0.35 for 3B). The
 GRPO row shows lift over that baseline. The +73% number is therefore
 **SFT-only → SFT+GRPO**, on the same env, same 50 prompts, same seed.
 
-### 1.5B GRPO — reward variance stayed healthy across 200 steps
+### 1.5B GRPO — clean reward curve, +73% over 200 steps
+
+![1.5B GRPO mean reward curve](frontend/public/charts/grpo_1_5b_reward.png)
+
+*Live W&B run: <https://wandb.ai/f-banasthali-vidyapith/smb-ad-manager/runs/n3f4majc>*
+
+Mean reward climbs from ~0.41 at step 5 to ~0.71 by step 200, with healthy
+variance throughout (high points reach 0.75). The variance itself is the
+sign that GRPO is working — every batch carries a real learning signal.
+
+The supporting chart, reward variance over the same 200 steps, shows non-zero
+std at every step:
 
 ![Reward std over 200 GRPO steps](frontend/public/charts/1.png)
-
-This is the *opposite* of the 3B v1 collapse: every batch has non-zero reward
-variance, so group-relative advantage actually carries signal. Spikes around
-step 50 are the model exploring new tools, plateaus are it consolidating gains.
 
 > **For richer visuals** — screenshots of the live `/founder`, `/adversarial`,
 > and `/metrics` pages will be added to `docs/screenshots/` once captured.
@@ -182,6 +189,16 @@ spiked to 0.07 around step 50). But mean reward still parked at 0.35 for all
 200 steps, and **every time variance appeared, mean reward went *down***
 (0.35 → 0.3325). Exploration produced rollouts that were *worse* than the safe
 0.35 partial-credit floor, so the gradient pushed the policy back to the floor.
+
+![3B v2 GRPO reward stuck at 0.35 with periodic dips to 0.3325](frontend/public/charts/grpo_3b_v2_flat.png)
+
+*Live W&B run: <https://wandb.ai/f-banasthali-vidyapith/smb-ad-manager/runs/9egwjils>*
+
+The signature is unmistakable: a dead-flat plateau at 0.35 punctuated by
+brief dips to 0.3325 — every dip is one rollout in the group of 4 producing
+something *worse* than the safe partial-credit policy. The dip-and-recover
+pattern is the policy parking itself back on the floor after each failed
+exploration attempt.
 
 ### v3 (pre-flight diagnostic) — root cause found
 
