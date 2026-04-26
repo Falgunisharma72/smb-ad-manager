@@ -1,30 +1,28 @@
-# SMB Ad Manager — Scaler OpenEnv Hackathon Submission
+# SMB Ad Manager — Hackathon Submission
 
 **Team:** Falguni Sharma · Sarthak · Shrishty
-**Date:** April 26, 2026
-**Track:** Theme 3.1 (Professional World Modeling) — *primary*; Themes 1, 2, 4 also hit
-**Bonus tracks claimed:** Patronus AI · Halluminate · Scaler AI Labs
+**Track:** Theme 3.1 (Professional World Modeling) — *primary*; also hits Themes 1, 2, 4
+**Bonus tracks:** Patronus AI · Halluminate · Scaler AI Labs
 
 ---
 
 ## TL;DR
 
-We built a **reward-hardened, OpenEnv-compliant Meta Ads RL environment** for
-training LLM agents to manage ad campaigns for Indian SMBs — calibrated against
-real-world data, with **5 reward functions + 5 always-on anti-hack detectors**
-as the differentiator. Then we trained an agent in it (Qwen 2.5 1.5B + GRPO),
-got a clean **+73% reward improvement**, attempted to scale to 3B, **discovered
-distribution sharpening collapse**, and shipped both wins and the failure as
-honest research.
+A reward-hardened, OpenEnv-compliant Meta Ads RL environment for training LLM
+agents to manage Indian SMB ad accounts — calibrated against WordStream + Meta
+Ad Library, with **5 reward functions + 5 anti-hack detectors** as the
+differentiator. We trained Qwen 2.5 1.5B in it and got **+73% reward
+improvement**; we tried 3B, hit distribution sharpening collapse, and shipped
+the failure as honest research.
 
 ---
 
 ## 🔗 Live links
 
-| Artifact | Link |
+| Artifact | URL |
 |---|---|
-| 🌐 Live env service | <https://falgunisharma-smb-ad-manager.hf.space> |
-| 🎬 Demo website | <https://smb-ad-manager.vercel.app> *(login `admin` / `hackathon2026`)* |
+| 🌐 Live env (HF Space) | <https://falgunisharma-smb-ad-manager.hf.space> |
+| 🎬 Demo website (Vercel) | <https://smb-ad-manager.vercel.app> · login `admin` / `hackathon2026` |
 | 🤖 SFT 1.5B adapter | <https://huggingface.co/Falgunisharma/smb-ad-manager-sft> |
 | 🚀 GRPO 1.5B adapter | <https://huggingface.co/Falgunisharma/smb-ad-manager-grpo> |
 | 🧪 SFT 3B adapter | <https://huggingface.co/Falgunisharma/smb-ad-manager-sft-3b> |
@@ -33,198 +31,181 @@ honest research.
 
 ---
 
-## The problem
+## What we built
 
-Indian SMBs spend **₹50,000+/month** on Meta Ads but cannot afford a real growth
-marketer. AI agents *could* fill the gap — but no one had built a safe place
-where an LLM agent could learn ad-management without burning real budget. We
-built that place. Then we trained an agent in it.
+| Artifact | What it is |
+|---|---|
+| **Environment** (`src/smb_ads/`) | OpenEnv-compliant FastAPI service · 15 strict Pydantic schemas · 8 mock Meta Marketing API tools · 93 passing tests |
+| **Reward stack** (`src/smb_ads/rewards.py`) | 5 reward components + 5 anti-hack detectors, all logged separately |
+| **Showcase site** (`frontend/`) | Next.js 15 deployed on Vercel · 6 routes hitting the live HF Space |
 
 ---
 
-## What we built — three artifacts
+## Dataset & calibration
 
-### 1. The environment (`src/smb_ads/`)
-
-OpenEnv-compliant FastAPI service. **Lives at
-[falgunisharma-smb-ad-manager.hf.space](https://falgunisharma-smb-ad-manager.hf.space).**
-
-- 15 strict Pydantic 2 schemas (`extra="forbid"`)
-- Calibrated user response model (WordStream India + Meta Ad Library)
-- 8 mock Meta Marketing API tools (create_campaign, pause_ad, get_metrics, …)
-- 3 industries × 10 SMB profiles (skincare, food delivery, fitness apps)
-- 5 always-on policies + 1 mid-episode drift event
-- 93 passing tests across 6 test files
-
-### 2. The reward stack (`src/smb_ads/rewards.py`)
-
-| Component | What it scores |
+| Source | What we used it for |
 |---|---|
-| `r1_roas_improvement` | Did this step improve ROAS vs yesterday? |
-| `r2_policy_compliance` | **Multiplicative kill-switch** — violation → score = 0 |
-| `r3_format_compliance` | Did the action match the strict Pydantic schema? |
-| `r4_budget_discipline` | Did the agent stay within the monthly budget envelope? |
-| `r5_no_cheating` | Did the agent only cite metrics it actually fetched? |
+| **WordStream 2024-2025 Facebook benchmarks** ([link](https://www.wordstream.com/blog/ws/2024/03/05/facebook-advertising-benchmarks)) | Per-vertical baseline CTR / conversion rate / audience pressure |
+| **Meta Ads Library** | Reach / impression spot-checks across the 3 verticals |
+| **Indian-market CPM rates** (5–8× lower than US) | Per-impression cost realism — the reason ROAS in our scenarios is meaningful |
+| **Hand-crafted SFT data** (`training/sft_data.jsonl`) | 100 examples, 9-tool action grammar, every example schema-valid |
 
-Plus **5 anti-hack detectors** that fire alongside: `mass_pause`, `quality_floor`,
-`hallucinated_citation`, `action_spam`, `policy_ignore`. Logged separately to
-W&B and visible to the demo UI in real time.
+### Verticals we calibrated (3 industries × benchmarks)
 
-### 3. The showcase website (`frontend/`)
+| Industry | Baseline CTR | Conv rate | AOV | CPM (INR) | Pressure |
+|---|---:|---:|---:|---:|---:|
+| Skincare / D2C beauty | 1.4% | 2.5% | ₹850 | ₹95 | 1.1× |
+| Food delivery | 1.0% | 3.5% | ₹420 | ₹75 | 1.3× |
+| Fitness apps | 1.6% | 1.8% | ₹250 | ₹85 | 1.0× |
 
-Next.js 15 + Tailwind + Framer Motion deployed on Vercel. 6 routes — each one
-hits the live HF Space:
+### SMB scenarios
 
-- `/dashboard` — live env health pill + site map
-- `/founder` — flagship demo, fill business brief, watch trained-model 7-day plan reveal
-- `/playground` — judge plays as the agent, sees rewards + hacks fire
-- `/adversarial` — 4 attacker presets, 5 detectors light up red
-- `/metrics` — W&B charts, 5-component reward breakdown, honest limitations
-- `/about` — team + architecture + citations
+**10 realistic SMB profiles** spanning ₹5K – ₹50K/month budgets across the 3
+verticals — Priya's Handmade Candles, Glow Naturally Skincare, Thali Express,
+FitTrack India, and 6 more. Each scenario seeds reproducible 3-7 day episodes.
 
 ---
 
 ## Training pipeline
 
 ```
-Qwen 2.5 (1.5B or 3B Instruct)
-        │
-        │ Stage 1: SFT warm-start
-        │   • 100 hand-crafted examples
-        │   • LoRA r=16, alpha=32, dropout=0.05
-        │   • bf16, 4-bit bnb, 3 epochs
-        │   • TRL SFTTrainer
-        ▼
-SFT-warmed model
-        │
-        │ Stage 2: GRPO RL refinement
-        │   • Live HF Space as reward source
-        │   • LoRA r=16, alpha=32 (fresh adapter)
-        │   • 200 steps, group size 2 (1.5B) or 4 (3B-v2)
-        │   • TRL GRPOTrainer
-        ▼
-GRPO-refined model
+   100 hand-crafted SFT examples            ┌──────────────────┐
+              │                              │  Live HF Space   │
+              ▼                              │  reward signal   │
+  ┌──────────────────────┐                  └────────┬─────────┘
+  │  Qwen 2.5 base       │                           │
+  │  (1.5B or 3B)        │                           │
+  └──────────┬───────────┘                           │
+             │                                        │
+       Stage 1: SFT                                   │
+       LoRA r=16, bf16, 3 epochs                      │
+             │                                        │
+             ▼                                        │
+  ┌──────────────────────┐                            │
+  │  SFT-warmed model    │                            │
+  └──────────┬───────────┘                            │
+             │                                        │
+       Stage 2: GRPO  ◄────── reward per rollout ─────┘
+       Group size 2 (1.5B) / 4 (3B-v2)
+       200 steps · TRL GRPOTrainer
+             │
+             ▼
+  ┌──────────────────────┐
+  │  GRPO-refined agent  │
+  └──────────────────────┘
 ```
 
-Both stages run on a single Colab L4 in **under 90 minutes wall-clock**.
+Both stages run on **a single Colab L4 in under 90 minutes** wall-clock.
 
 ---
 
-## Results — comparison
+## Results
 
-### Stage 1: SFT warm-start
+### Stage 1 — SFT warm-start
 
-| Model | Loss start | Loss end | Token accuracy | Entropy end | Runtime |
-|---|---:|---:|---:|---:|---:|
-| Qwen 2.5 1.5B + SFT LoRA | 2.31 | **0.17** | 95.0% | 0.21 | ~5 min on L4 |
-| Qwen 2.5 3B + SFT LoRA   | 2.32 | **0.165** | 95.6% | 0.18 | ~25 min on L4 |
+| Model | Loss start → end | Token accuracy | Entropy end | Runtime |
+|---|---:|---:|---:|---:|
+| Qwen 2.5 1.5B | 2.31 → **0.17** | 95.0% | 0.21 | ~5 min on L4 |
+| Qwen 2.5 3B   | 2.32 → **0.165** | 95.6% | 0.18 | ~25 min on L4 |
 
-Both SFT runs converged cleanly. The 3B's lower entropy (0.18 vs 0.21) becomes
-load-bearing in Stage 2 — see below.
+Both converged. The 3B's slightly lower entropy (0.18) becomes load-bearing in
+Stage 2 — see **Distribution sharpening** below.
 
-### Stage 2: GRPO refinement
+### Stage 2 — GRPO refinement
 
 | Model | Reward start | Reward end | Δ | grad_norm | reward_std | Result |
 |---|---:|---:|---:|---:|---:|---|
-| Qwen 2.5 1.5B + GRPO | 0.41 | **0.71** | **+73%** | healthy | > 0.05 | ✅ converged cleanly |
-| Qwen 2.5 3B + GRPO (v1) | 0.35 | 0.35 | +0% | 0 | 0 | ⚠ distribution sharpening collapse |
-| Qwen 2.5 3B + GRPO (v2) | _running_ | _running_ | _running_ | _running_ | _running_ | _v2 result will be added once training completes_ |
+| **1.5B + GRPO** | 0.41 | **0.71** | **+73%** | healthy | > 0.05 | ✅ converged cleanly |
+| 3B + GRPO (v1, default config) | 0.35 | 0.35 | +0% | 0 | 0 | ⚠ distribution sharpening collapse |
+| 3B + GRPO (v2, anti-collapse) | _running_ | _running_ | _running_ | — | — | _result will be appended_ |
 
-### Why 3B v1 collapsed (research finding)
+### What "baseline" means in this comparison
 
-The SFT-warmed 3B model converged to a near-deterministic policy at the GRPO
-sampling temperature of 0.7. Within each group of 2 rollouts, completions were
-**identical** — making the group-relative advantage `(reward − mean) / std`
-exactly zero, every step. Hence:
+The **baseline is the SFT-only model** — i.e., the model after Stage 1, before
+any RL. Its reward score on the env is 0.41 for 1.5B (and 0.35 for 3B). The
+GRPO row shows lift over that baseline. The +73% number is therefore
+**SFT-only → SFT+GRPO**, on the same env, same 50 prompts, same seed.
+
+### 1.5B GRPO — reward variance stayed healthy across 200 steps
+
+![Reward std over 200 GRPO steps](frontend/public/charts/1.png)
+
+This is the *opposite* of the 3B v1 collapse: every batch has non-zero reward
+variance, so group-relative advantage actually carries signal. Spikes around
+step 50 are the model exploring new tools, plateaus are it consolidating gains.
+
+> **For richer visuals** — screenshots of the live `/founder`, `/adversarial`,
+> and `/metrics` pages will be added to `docs/screenshots/` once captured.
+
+---
+
+## Distribution sharpening collapse — research finding (3B v1)
+
+The 3B model's SFT converged to a near-deterministic policy. At the GRPO
+sampling temperature of 0.7, **every rollout in a group of 2 was identical**.
+This makes the group-relative advantage `(reward − mean) / std` exactly zero,
+every step — so no gradient, no learning.
+
+**Diagnostic signature:**
 
 - `frac_reward_zero_std = 1.0` (every batch had zero variance)
 - `grad_norm = 0` (no gradient signal)
 - `loss = 0` (pure no-op)
 
-This is a textbook **distribution sharpening collapse**. The fix tried in v2:
+**v2 anti-collapse config** (currently training):
 
-| Config | v1 | v2 (anti-collapse) |
-|---|---|---|
-| Sampling temperature | 0.7 | **1.0** |
-| Group size | 2 | **4** |
-| KL coefficient (`beta`) | 0.04 | **0.0** |
-| Top-p | 1.0 | **0.95** |
-| Learning rate | 5e-6 | **1e-5** |
-
-The combination is designed to widen rollout variance and stop the KL penalty
-from pulling completions back toward the SFT mode. v2 result will be appended
-when the run completes.
+| Knob | v1 | v2 | Why |
+|---|---:|---:|---|
+| Temperature | 0.7 | **1.0** | Wider sampling distribution |
+| Group size | 2 | **4** | More rollouts → more chance of variance |
+| KL coefficient `β` | 0.04 | **0.0** | Stop pulling completions back to the SFT mode |
+| Learning rate | 5e-6 | **1e-5** | Bigger step when signal does appear |
+| Top-p | 1.0 | **0.95** | Tail-cut to keep coherence at higher temp |
 
 ---
 
-## Honest limitations (we publish the bad numbers too)
+## Honest limitations
 
-We deliberately surface what's broken — judges trust honesty over polish.
+We surface these on the live `/metrics` page too — judges can verify.
 
-1. **Trained agent converges to "spam create" policy.** After 200 GRPO steps,
-   the 1.5B model heavily prefers `create_campaign` / `create_ad` over actually
-   modifying running campaigns. Reliable partial credit, but lift over a noop
-   baseline is small. *Fix:* train longer or remove partial credit from `r1`.
-
-2. **Format compliance reward (`r3`) stays at 0.0.** The model outputs valid
-   JSON but uses field names like `daily_budget` instead of the schema's
-   `daily_budget_inr`. *Fix:* soften `r3` to dict-shape match, or add
-   schema-correct examples to SFT data.
-
-3. **Hallucinated tool names.** The 1.5B model occasionally invents tool names
-   (`creative_curation`, `creative_selection`); env returns 422. *Fix:* include
-   explicit tool list in every prompt template.
-
-4. **3B distribution sharpening collapse** (above). Documented as research
-   finding rather than hidden.
-
-These are all visible on the `/metrics` page of the live demo with proposed
-fixes for each.
+1. **Trained agent prefers `create_*` tools** over modifying running campaigns. Reliable partial credit but small lift over a noop. *Fix:* train longer or remove `r1` partial credit.
+2. **`r3` (format compliance) stays at 0.0** — model emits valid JSON but uses `daily_budget` instead of `daily_budget_inr`. *Fix:* dict-shape match or schema-correct SFT examples.
+3. **Hallucinated tool names** (`creative_curation`, `creative_selection`) → env returns 422. *Fix:* explicit tool list in every prompt template.
+4. **3B distribution sharpening collapse** (above) — documented as research finding rather than hidden.
 
 ---
 
-## Themes hit
+## Themes & bonus tracks
 
-- **Theme 3.1 — Professional World Modeling** *(primary)* — Meta Ads ecosystem,
-  calibrated user response, ad auction, policy enforcement
-- **Theme 1 — Multi-Agent** — 3 simulated actors (user model, ad auction, policy enforcer)
-  acting concurrently against the agent
-- **Theme 2 — Long-Horizon** — 3-7 day episodes with mid-week policy drift
-  (`p6_health_disclaimer`)
-- **Theme 4 — Self-Improvement** — GRPO RL refinement on a live reward signal
-
-## Bonus tracks claimed
-
-| Track | Hook |
+| Theme | How we hit it |
 |---|---|
-| 🎯 **Patronus AI** | Mid-episode `p6_health_disclaimer` policy drift — agent must detect via `get_policy_updates` and repair via `rewrite_creative` |
-| 🎯 **Halluminate** | `r5_no_cheating` reward verifies the agent only cites metrics it actually fetched (multi-actor consistency) |
-| 🎯 **Scaler AI Labs** | 5 reward components + 5 anti-hack detectors logged separately, visible at every step (enterprise-grade governance posture) |
+| **3.1 Professional World Modeling** *(primary)* | Calibrated Meta Ads ecosystem, user response, ad auction, policy enforcement |
+| **1 Multi-Agent** | 3 simulated actors (user model · ad auction · policy enforcer) act concurrently against the agent |
+| **2 Long-Horizon** | 3-7 day episodes with mid-week policy drift |
+| **4 Self-Improvement** | GRPO on a live reward signal |
+
+| Bonus track | Hook |
+|---|---|
+| 🎯 **Patronus AI** | Mid-episode `p6_health_disclaimer` drift — agent detects via `get_policy_updates`, repairs via `rewrite_creative` |
+| 🎯 **Halluminate** | `r5_no_cheating` verifies the agent only cites metrics it actually fetched |
+| 🎯 **Scaler AI Labs** | 5 reward components + 5 anti-hack detectors logged separately, visible per step |
 
 ---
 
 ## Tech stack
 
-- **Environment:** Python 3.11, FastAPI, Pydantic 2, pytest
-- **Deployment:** HuggingFace Spaces (Docker SDK, CPU-only), Vercel (frontend)
-- **Models:** Qwen 2.5 1.5B Instruct, Qwen 2.5 3B Instruct
-- **Training:** HF TRL (SFTTrainer, GRPOTrainer), peft (LoRA), bitsandbytes (4-bit)
-- **Hardware:** Single Colab Pro L4 (24 GB)
-- **Logging:** Weights & Biases
-- **Frontend:** Next.js 15, Tailwind, Framer Motion
+Python 3.11 · FastAPI · Pydantic 2 · pytest · HuggingFace Spaces (Docker) ·
+Vercel · Qwen 2.5 (1.5B / 3B Instruct) · HF TRL · peft (LoRA) · bitsandbytes
+4-bit · Colab Pro L4 · Weights & Biases · Next.js 15 · Tailwind · Framer Motion.
 
 ---
 
 ## Citations
 
 - DeepSeek-R1 (GRPO origin) — [arxiv 2501.12948](https://arxiv.org/abs/2501.12948)
-- 2-GRPO: 12.5% rollouts of standard GRPO — [arxiv 2510.00977](https://arxiv.org/abs/2510.00977)
+- 2-GRPO (12.5% rollouts of standard GRPO) — [arxiv 2510.00977](https://arxiv.org/abs/2510.00977)
 - OpenEnv specification — [github.com/huggingface/openenv](https://github.com/huggingface/openenv)
-- Distribution sharpening collapse in PPO/GRPO — folklore in RL literature; we
-  reproduce the failure mode here as a documented training pitfall
 
 ---
 
-## License
-
-MIT — code free to fork, build on, or reproduce.
+*MIT licensed. Fork freely.*
