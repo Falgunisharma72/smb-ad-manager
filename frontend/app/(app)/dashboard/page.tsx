@@ -218,6 +218,47 @@ export default function DashboardPage() {
         </div>
       </section>
 
+      {/* Baseline-vs-trained comparison - direct hit on the "show improvement" criterion */}
+      <section>
+        <FadeIn delay={0.05}>
+          <h2 className="font-serif text-4xl mb-3">Baselines vs trained</h2>
+          <p className="text-lg text-muted-foreground mb-10 max-w-2xl">
+            Random and untrained-base sit at the floor (env returns 0 for
+            invalid actions). SFT is a real but small lift. SFT + GRPO is
+            where the env actually rewards skill.
+          </p>
+        </FadeIn>
+        <div className="card-surface p-6 lg:p-8">
+          <div className="rounded-lg overflow-hidden border border-border/60 bg-background/40">
+            <Image
+              src="/charts/baseline_comparison.png"
+              alt="Reward bar chart: random 0.05, untrained 0.05, +SFT 0.41, +SFT+GRPO 0.71"
+              width={1600}
+              height={880}
+              className="w-full h-auto"
+            />
+          </div>
+          <div className="grid sm:grid-cols-4 gap-4 mt-6 text-center">
+            <div>
+              <div className="font-serif text-3xl text-muted-foreground tabular-nums">0.05</div>
+              <div className="text-xs uppercase tracking-[0.08em] text-muted-foreground mt-1">Random</div>
+            </div>
+            <div>
+              <div className="font-serif text-3xl text-muted-foreground tabular-nums">0.05</div>
+              <div className="text-xs uppercase tracking-[0.08em] text-muted-foreground mt-1">Untrained 1.5B</div>
+            </div>
+            <div>
+              <div className="font-serif text-3xl text-foreground tabular-nums">0.41</div>
+              <div className="text-xs uppercase tracking-[0.08em] text-muted-foreground mt-1">+ SFT</div>
+            </div>
+            <div>
+              <div className="font-serif text-3xl text-primary tabular-nums">0.71</div>
+              <div className="text-xs uppercase tracking-[0.08em] text-primary mt-1 font-semibold">+ SFT + GRPO</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Visual proof strip - all four training charts side by side */}
       <section>
         <FadeIn delay={0.05}>

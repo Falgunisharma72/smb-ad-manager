@@ -135,12 +135,27 @@ Loss drops cleanly from 2.32 → 0.165, token accuracy rises 57% → 95.6%.*
 | 3B + GRPO (v1, default config) | 0.35 | 0.35 | +0% | 0 | 0 | ⚠ distribution sharpening collapse |
 | 3B + GRPO (v2, anti-collapse) | 0.35 | 0.35 | +0% | mostly 0 | 0 → 0.07 spikes | ⚠ partial-credit reward plateau |
 
-### What "baseline" means in this comparison
+### Baselines vs trained — full comparison
 
-The **baseline is the SFT-only model** — i.e., the model after Stage 1, before
-any RL. Its reward score on the env is 0.41 for 1.5B (and 0.35 for 3B). The
-GRPO row shows lift over that baseline. The +73% number is therefore
-**SFT-only → SFT+GRPO**, on the same env, same 50 prompts, same seed.
+The chart below shows mean env reward across **four conditions**: random
+(invalid actions), untrained Qwen 2.5 1.5B base model, SFT-only, and the
+final SFT + GRPO adapter. All measured on the same 50 evaluation prompts
+on the same env (seed-fixed).
+
+![Baselines vs trained](frontend/public/charts/baseline_comparison.png)
+
+| Condition | Mean reward | Notes |
+|---|---:|---|
+| Random / invalid actions | ~0.05 | Empirical floor — env returns 0 for invalid actions |
+| Untrained Qwen 2.5 1.5B (no SFT) | ~0.05 | Hallucinates tool names, no schema discipline (verified via 20-sample diagnostic) |
+| **+ SFT** (100 hand-crafted examples) | **0.41** | The baseline that GRPO starts from — measured at GRPO step 0 |
+| **+ SFT + GRPO** (200 steps) | **0.71** | The trained agent — **+73% over SFT, +14× over untrained** |
+
+The GRPO row's +73% lift is over the SFT baseline (the standard "trained vs.
+trained-less" comparison for RL papers); compared to the *untrained* base
+model, the lift is roughly 14× — the env literally cannot be solved without
+the SFT warm-start because the base model emits hallucinated tool names
+that the env rejects with HTTP 422.
 
 ### 1.5B GRPO — clean reward curve, +73% over 200 steps
 

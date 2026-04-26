@@ -5,7 +5,7 @@ description: >
   end-to-end for small businesses. Includes 5 independent reward functions with
   proactive reward-hacking prevention.
 
-env_class: "src.smb_ads.env:Env"
+env_class: "src.smb_ads.openenv_compat:OpenEnvSMBAdManager"
 
 tasks:
   - id: easy

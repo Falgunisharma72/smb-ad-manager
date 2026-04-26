@@ -14,9 +14,15 @@ app_port: 7860
 
 > **Most RL environments reward outcomes. Ours catches shortcuts to outcomes.**
 >
-> An OpenEnv-compliant training environment that teaches LLM agents to manage
-> Meta Ads end-to-end for Indian small businesses — with **5 independent reward
+> An environment built on top of [Meta's OpenEnv framework](https://github.com/huggingface/openenv)
+> (`openenv>=0.1.13` from PyPI — our `Env` class subclasses
+> `openenv.core.env_server.Environment`) that teaches LLM agents to manage
+> Meta Ads end-to-end for Indian small businesses, with **5 independent reward
 > functions** and **5 live anti-hack detectors** as the first-class differentiator.
+
+**Trained Qwen 2.5 1.5B with TRL GRPO. Reward 0.41 → 0.71 (+73% over SFT, ~14× over untrained base).
+Real-world Indian SMB Meta Ads economics calibrated from WordStream + Meta Ad Library.
+Documented one clean win and one diagnostic-driven scaling-study failure (3B). 51 minutes on a single Colab L4.**
 
 ---
 
