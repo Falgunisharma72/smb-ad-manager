@@ -7,8 +7,7 @@ authors:
 
 # Reward-hardened RL for Meta Ads agents — what we built, and what broke
 
-> *Submission for the **Scaler OpenEnv Hackathon (April 2026)**.
-> Team: Falguni Sharma · Sarthak · Shrishty.*
+> *Submission for the **Scaler OpenEnv Hackathon (April 2026)**.*
 
 Most RL environments reward outcomes. Ours catches **shortcuts** to outcomes.
 
@@ -234,6 +233,16 @@ Three things we'd carry into the next project:
 - DeepSeek-R1 (GRPO origin) — [arxiv 2501.12948](https://arxiv.org/abs/2501.12948)
 - 2-GRPO (12.5% rollouts of standard GRPO) — [arxiv 2510.00977](https://arxiv.org/abs/2510.00977)
 - OpenEnv specification — [github.com/huggingface/openenv](https://github.com/huggingface/openenv)
+
+---
+
+## Team
+
+**Team name — Sarthak's team**
+
+- Falguni Sharma
+- Sarthak
+- Shrishty
 
 ---
 

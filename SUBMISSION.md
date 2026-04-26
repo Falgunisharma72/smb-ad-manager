@@ -1,6 +1,5 @@
 # SMB Ad Manager — Hackathon Submission
 
-**Team:** Falguni Sharma · Sarthak · Shrishty
 **Track:** Theme 3.1 (Professional World Modeling) — *primary*; also hits Themes 1, 2, 4
 **Bonus tracks:** Patronus AI · Halluminate · Scaler AI Labs
 
@@ -317,6 +316,16 @@ Vercel · Qwen 2.5 (1.5B / 3B Instruct) · HF TRL · peft (LoRA) · bitsandbytes
 - DeepSeek-R1 (GRPO origin) — [arxiv 2501.12948](https://arxiv.org/abs/2501.12948)
 - 2-GRPO (12.5% rollouts of standard GRPO) — [arxiv 2510.00977](https://arxiv.org/abs/2510.00977)
 - OpenEnv specification — [github.com/huggingface/openenv](https://github.com/huggingface/openenv)
+
+---
+
+## Team
+
+**Team name — Sarthak's team**
+
+- Falguni Sharma
+- Sarthak
+- Shrishty
 
 ---
 

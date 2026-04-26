@@ -10,7 +10,7 @@ app_port: 7860
 
 # SMB Ad Manager — Reward-Hardened Meta Ads RL Environment
 
-**Scaler OpenEnv Hackathon · April 2026 · Team Falguni · Sarthak · Shrishty**
+**Scaler OpenEnv Hackathon · April 2026**
 
 > **Most RL environments reward outcomes. Ours catches shortcuts to outcomes.**
 >
@@ -257,6 +257,8 @@ we publish them on `/metrics` and explain how we'd fix them with more compute.
 ---
 
 ## Team
+
+**Team name — Sarthak's team**
 
 | Member | Role |
 |---|---|

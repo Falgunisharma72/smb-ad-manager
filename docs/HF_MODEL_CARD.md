@@ -24,7 +24,6 @@ tags:
 [![Demo site](https://img.shields.io/badge/demo-vercel-black)](https://smb-ad-manager.vercel.app)
 
 > **Submission for the Scaler OpenEnv Hackathon (April 2026).**
-> Team: Falguni Sharma · Sarthak · Shrishty.
 
 A LoRA adapter on top of `Qwen/Qwen2.5-1.5B-Instruct`, RL-refined against a
 **reward-hardened, OpenEnv-compliant Meta Ads simulator** that scores every
@@ -205,6 +204,14 @@ These are surfaced on the live demo's `/metrics` page — judges can verify.
 - DeepSeek-R1 (GRPO origin) — [arxiv 2501.12948](https://arxiv.org/abs/2501.12948)
 - 2-GRPO — [arxiv 2510.00977](https://arxiv.org/abs/2510.00977)
 - OpenEnv specification — [github.com/huggingface/openenv](https://github.com/huggingface/openenv)
+
+## Team
+
+**Team name — Sarthak's team**
+
+- Falguni Sharma
+- Sarthak
+- Shrishty
 
 ## License
 
