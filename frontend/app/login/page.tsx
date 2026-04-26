@@ -30,7 +30,7 @@ export default function LoginPage() {
       router.push("/dashboard");
       router.refresh();
     } catch {
-      setError("Network error — please retry");
+      setError("Network error - please retry");
     } finally {
       setLoading(false);
     }
@@ -59,7 +59,7 @@ export default function LoginPage() {
           transition={{ delay: 0.15, duration: 0.6 }}
           className="text-center font-serif text-4xl mb-2"
         >
-          <span className="text-gradient">SMB Ad Manager</span>
+          <span className="text-gradient">MetaScale</span>
         </motion.h1>
         <motion.p
           initial={{ opacity: 0 }}
@@ -92,7 +92,7 @@ export default function LoginPage() {
               required
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-lg bg-white/60 border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition"
+              className="w-full px-4 py-2.5 rounded-lg bg-card/60 border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition"
             />
           </div>
 
@@ -111,7 +111,7 @@ export default function LoginPage() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-lg bg-white/60 border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition"
+              className="w-full px-4 py-2.5 rounded-lg bg-card/60 border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition"
             />
           </div>
 

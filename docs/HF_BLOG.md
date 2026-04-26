@@ -54,11 +54,16 @@ that earns reward.
 The env simulates the Meta Ads ecosystem with three actors moving against
 the agent concurrently:
 
-- **A user-response model** — calibrated against [WordStream's 2024 Facebook industry benchmarks](https://www.wordstream.com/blog/ws/2024/03/05/facebook-advertising-benchmarks) plus Meta Ad Library spot-checks
+- **A user-response model** — calibrated against [WordStream's 2024 Facebook industry benchmarks](https://www.wordstream.com/blog/ws/2024/03/05/facebook-advertising-benchmarks) plus [Meta Ad Library](https://www.facebook.com/ads/library/) spot-checks
 - **An ad auction** — competitive pressure varies per industry
 - **A policy enforcer** — 5 always-on rules + 1 mid-episode drift event that the agent must detect via a tool call and repair
 
-We calibrated three industries:
+We calibrated three industries. Acronyms used below: **CTR** is
+Click-Through Rate (% of impressions that produce a click), **Conv rate** is
+Conversion rate (% of clicks that produce a conversion), **AOV** is Average
+Order Value (typical revenue per converting customer), **CPM** is Cost Per
+Mille / cost per 1,000 impressions, and **Pressure** is the competitive
+auction multiplier (1.0× = average market, >1 = harder).
 
 | Industry | Baseline CTR | Conv rate | AOV | CPM (INR) | Pressure |
 |---|---:|---:|---:|---:|---:|
@@ -241,8 +246,8 @@ Three things we'd carry into the next project:
 **Team name — Sarthak's team**
 
 - Falguni Sharma
-- Sarthak
-- Shrishty
+- Sarthak Kala
+- Shrishty Kothiyal
 
 ---
 

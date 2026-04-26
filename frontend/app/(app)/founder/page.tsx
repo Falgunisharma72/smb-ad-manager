@@ -76,7 +76,7 @@ export default function FounderPage() {
     };
     setTrajectory(personalised);
 
-    // Reveal one day at a time — feels like the agent is "thinking"
+    // Reveal one day at a time - feels like the agent is "thinking"
     for (let i = 1; i <= personalised.steps.length; i++) {
       await new Promise((r) => setTimeout(r, 750));
       setRevealedDays(i);
@@ -96,7 +96,7 @@ export default function FounderPage() {
       <FadeIn>
         <div className="flex items-end justify-between gap-4 flex-wrap">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-white/60 px-3 py-1 text-xs font-medium text-muted-foreground mb-3">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-xs font-medium text-muted-foreground mb-3">
               <Sparkles className="w-3 h-3 text-primary" />
               Founder Mode
             </div>
@@ -107,7 +107,7 @@ export default function FounderPage() {
             <p className="text-muted-foreground max-w-2xl">
               Tell us about your business and what you want to advertise. Our
               trained agent runs a 7-day simulated campaign and shows you
-              exactly what it would do — and why.
+              exactly what it would do - and why.
             </p>
           </div>
           {phase !== "form" && (
@@ -163,7 +163,7 @@ export default function FounderPage() {
                         className={`rounded-xl border p-3 text-left transition ${
                           input.industry === ind.key
                             ? "border-primary bg-primary-soft/60 shadow-soft"
-                            : "border-border bg-white/60 hover:border-primary/40"
+                            : "border-border bg-card/60 hover:border-primary/40"
                         }`}
                       >
                         <div className="text-xl mb-1">{ind.emoji}</div>
@@ -175,7 +175,7 @@ export default function FounderPage() {
                   </div>
                 </Field>
 
-                <Field label={`Monthly budget — ${formatINR(input.monthly_budget_inr)}`}>
+                <Field label={`Monthly budget - ${formatINR(input.monthly_budget_inr)}`}>
                   <input
                     type="range"
                     min={10000}
@@ -204,7 +204,7 @@ export default function FounderPage() {
                         className={`rounded-xl border p-3 text-left transition ${
                           input.goal === g.key
                             ? "border-primary bg-primary-soft/60 shadow-soft"
-                            : "border-border bg-white/60 hover:border-primary/40"
+                            : "border-border bg-card/60 hover:border-primary/40"
                         }`}
                       >
                         <div className="font-medium text-sm">{g.label}</div>
@@ -261,13 +261,13 @@ export default function FounderPage() {
                   />
                 </ol>
                 <div className="mt-5 rounded-xl border border-dashed border-border p-3 text-[11px] text-muted-foreground">
-                  Note: This is a simulated environment — the agent does not
+                  Note: This is a simulated environment - the agent does not
                   push real ads to Meta. The plan is what a human marketer
                   could execute manually.
                 </div>
               </div>
 
-              <div className="rounded-2xl bg-white/70 border border-border p-5">
+              <div className="rounded-2xl bg-card/70 border border-border p-5">
                 <div className="flex items-center gap-2 mb-3">
                   <ShieldCheck className="w-4 h-4 text-primary" />
                   <span className="text-sm font-medium">
@@ -385,7 +385,7 @@ function Step({ n, body }: { n: number; body: string }) {
 function BriefBanner({ input }: { input: FounderInput }) {
   return (
     <FadeIn>
-      <div className="rounded-2xl bg-white/70 border border-border p-5 flex items-start gap-4">
+      <div className="rounded-2xl bg-card/70 border border-border p-5 flex items-start gap-4">
         <div className="w-10 h-10 rounded-xl bg-accent-lavender/40 flex items-center justify-center shrink-0">
           <Building2 className="w-5 h-5 text-foreground/70" />
         </div>
@@ -427,7 +427,7 @@ function DayCard({ step, delayIndex }: { step: DayStep; delayIndex: number }) {
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: delayIndex * 0.04 }}
-      className="rounded-2xl bg-white border border-border shadow-soft overflow-hidden"
+      className="rounded-2xl bg-card border border-border shadow-soft overflow-hidden"
     >
       <div className="flex items-stretch">
         <div className="w-16 shrink-0 bg-primary-soft/40 flex flex-col items-center justify-center border-r border-border">
@@ -443,7 +443,7 @@ function DayCard({ step, delayIndex }: { step: DayStep; delayIndex: number }) {
               {step.tool}
             </span>
             <span className="font-medium text-sm">{toolLabel}</span>
-            {step.args_summary && step.args_summary !== "—" && (
+            {step.args_summary && step.args_summary !== "-" && (
               <span className="text-[11px] text-muted-foreground font-mono truncate">
                 {step.args_summary}
               </span>
@@ -570,7 +570,7 @@ function SummaryCard({ trajectory }: { trajectory: Trajectory }) {
 
       <motion.div
         variants={childFadeUp}
-        className="rounded-2xl bg-white border border-border p-5 shadow-soft"
+        className="rounded-2xl bg-card border border-border p-5 shadow-soft"
       >
         <div className="flex items-center gap-2 mb-3">
           <TrendingUp className="w-4 h-4 text-primary" />

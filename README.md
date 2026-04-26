@@ -263,8 +263,8 @@ we publish them on `/metrics` and explain how we'd fix them with more compute.
 | Member | Role |
 |---|---|
 | **Falguni Sharma** (B.Tech CS-AI, Banasthali Vidyapith) | RL training pipeline · backend env · reward design · Machine Unlearning research background |
-| **Sarthak** | Environment internals · world simulation · scenario calibration |
-| **Shrishty** | Frontend showcase · founder UX · pitch + demo |
+| **Sarthak Kala** (B.Tech CS-AI, Chitkara University) | Environment internals · world simulation · scenario calibration |
+| **Shrishty Kothiyal** (B.Tech CS-AI, Banasthali Vidyapith) | Pitch + storytelling · frontend showcase · founder UX |
 
 ---
 

@@ -1,10 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
 import {
-  GraduationCap,
-  Code2,
   Sparkles,
   ExternalLink,
   Github,
@@ -15,7 +12,7 @@ import {
   Cpu,
   ArrowRight,
 } from "lucide-react";
-import { FadeIn, StaggerChildren, childFadeUp } from "@/components/fade-in";
+import { FadeIn } from "@/components/fade-in";
 
 const TEAM = [
   {
@@ -25,16 +22,16 @@ const TEAM = [
     note: "Machine Unlearning research · Reward design + agent training",
   },
   {
-    name: "Sarthak",
+    name: "Sarthak Kala",
     role: "Environment + Eval",
-    affiliation: "—",
+    affiliation: "Chitkara University · CS-AI",
     note: "World simulation + tool API + scenario calibration",
   },
   {
-    name: "Shrishty",
-    role: "Frontend + Pitch",
-    affiliation: "—",
-    note: "Founder UX + judge demo flow + storytelling",
+    name: "Shrishty Kothiyal",
+    role: "Pitch + Frontend",
+    affiliation: "Banasthali Vidyapith · CS-AI",
+    note: "Pitching the project to judges · founder demo storytelling · frontend showcase",
   },
 ];
 
@@ -89,7 +86,7 @@ const CITATIONS = [
   {
     title: "DeepSeek-R1 (GRPO origin)",
     venue: "arxiv 2501.12948",
-    note: "Group Relative Policy Optimization — RL without a critic.",
+    note: "Group Relative Policy Optimization - RL without a critic.",
   },
   {
     title: "2-GRPO: compute-efficient RL",
@@ -104,7 +101,7 @@ const CITATIONS = [
   {
     title: "Machine Unlearning (Falguni's prior research)",
     venue: "Banasthali Vidyapith · 2025",
-    note: "Targeted forgetting in fine-tuned models — informed our reward-isolation approach.",
+    note: "Targeted forgetting in fine-tuned models - informed our reward-isolation approach.",
   },
 ];
 
@@ -113,40 +110,40 @@ const BONUS_TRACKS = [
     name: "Patronus AI",
     claim: "Schema-drift hardening",
     body:
-      "Mid-episode policy drift (p6_health_disclaimer) injected at task tier ≥ medium. The agent must detect it via get_policy_updates and respond with rewrite_creative — exactly the failure mode Patronus benchmarks measure.",
+      "Mid-episode policy drift (p6_health_disclaimer) injected at task tier ≥ medium. The agent must detect it via get_policy_updates and respond with rewrite_creative - exactly the failure mode Patronus benchmarks measure.",
   },
   {
     name: "Scaler AI Labs",
     claim: "Enterprise-grade reward isolation",
     body:
-      "Five reward components logged separately (no aggregated black box). Five anti-hack detectors give judges visible proof that shortcuts are caught — the kind of governance an enterprise team would actually deploy.",
+      "Five reward components logged separately (no aggregated black box). Five anti-hack detectors give judges visible proof that shortcuts are caught - the kind of governance an enterprise team would actually deploy.",
   },
   {
     name: "Halluminate",
     claim: "Multi-actor consistency",
     body:
-      "User-response model + ad-auction + policy-enforcer act as three independent simulated actors. The agent's no-cheating reward (r5) verifies it only cites metrics it actually fetched — directly matches Halluminate's hallucination criterion.",
+      "User-response model + ad-auction + policy-enforcer act as three independent simulated actors. The agent's no-cheating reward (r5) verifies it only cites metrics it actually fetched - directly matches Halluminate's hallucination criterion.",
   },
 ];
 
 export default function AboutPage() {
   return (
-    <div className="space-y-12">
+    <div className="space-y-24">
       <FadeIn>
-        <div>
-          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-white/60 px-3 py-1 text-xs font-medium text-muted-foreground mb-3">
-            <Sparkles className="w-3 h-3 text-primary" />
+        <div className="max-w-4xl">
+          <div className="text-sm uppercase tracking-[0.12em] text-primary font-medium mb-5">
             About
           </div>
-          <h1 className="font-serif text-4xl md:text-5xl mb-3">
-            <span className="text-gradient">Reward-hardened RL</span> for the
-            Indian SMB economy.
+          <h1 className="font-serif text-5xl md:text-6xl leading-[1.05] mb-6">
+            <span className="text-gradient">Reward-hardened RL</span>
+            <br />
+            for the Indian SMB economy.
           </h1>
-          <p className="text-muted-foreground max-w-3xl text-lg leading-relaxed">
-            Built for the Scaler OpenEnv hackathon (April 2026). We don't ship
-            an agent — we ship the environment that lets <i>any</i> agent
-            actually learn what good Meta Ads management looks like, with
-            guard-rails that catch the shortcuts.
+          <p className="text-xl text-muted-foreground leading-relaxed">
+            Built for the Scaler OpenEnv hackathon (April 2026). We don&apos;t
+            ship an agent. We ship the environment that lets any agent learn
+            what good Meta Ads management looks like, with guard-rails that
+            catch shortcuts.
           </p>
         </div>
       </FadeIn>
@@ -154,116 +151,131 @@ export default function AboutPage() {
       {/* Team */}
       <section>
         <FadeIn delay={0.05}>
-          <h2 className="font-serif text-3xl mb-5">Team</h2>
+          <div className="mb-10">
+            <h2 className="font-serif text-4xl mb-3">Team</h2>
+            <p className="text-lg text-muted-foreground">Three people, three lanes.</p>
+          </div>
         </FadeIn>
-        <StaggerChildren className="grid md:grid-cols-3 gap-4">
+        <div className="grid md:grid-cols-3 gap-5">
           {TEAM.map((t) => (
-            <motion.div
+            <article
               key={t.name}
-              variants={childFadeUp}
-              className="rounded-2xl bg-white border border-border p-5 shadow-soft"
+              className="card-surface p-7"
             >
-              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-primary-soft to-accent-lavender flex items-center justify-center mb-4">
-                <GraduationCap className="w-5 h-5 text-foreground/80" />
+              <div className="icon-chip w-12 h-12 mb-5">
+                <span className="font-serif text-lg text-primary">
+                  {t.name.charAt(0)}
+                </span>
               </div>
-              <div className="font-medium">{t.name}</div>
-              <div className="text-xs text-primary font-medium mb-1">
+              <div className="font-semibold text-xl">{t.name}</div>
+              <div className="text-sm text-primary font-medium mt-1 mb-2">
                 {t.role}
               </div>
-              <div className="text-xs text-muted-foreground mb-2">
+              <div className="text-sm text-muted-foreground mb-4">
                 {t.affiliation}
               </div>
-              <p className="text-sm text-foreground/70 leading-snug">
+              <p className="text-base text-muted-foreground leading-relaxed">
                 {t.note}
               </p>
-            </motion.div>
+            </article>
           ))}
-        </StaggerChildren>
+        </div>
       </section>
 
       {/* Architecture */}
       <section>
         <FadeIn delay={0.05}>
-          <h2 className="font-serif text-3xl mb-5">Architecture</h2>
+          <div className="mb-10">
+            <h2 className="font-serif text-4xl mb-3">Architecture</h2>
+            <p className="text-lg text-muted-foreground">Four layers, each independently testable.</p>
+          </div>
         </FadeIn>
-        <StaggerChildren className="grid md:grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-5">
           {STACK_LAYERS.map((l) => {
             const Icon = l.icon;
             return (
-              <motion.article
+              <article
                 key={l.title}
-                variants={childFadeUp}
-                className="rounded-2xl bg-white border border-border p-6 shadow-soft"
+                className="card-surface p-7"
               >
-                <div
-                  className={`w-11 h-11 rounded-xl bg-gradient-to-br ${l.tint} flex items-center justify-center mb-4`}
-                >
-                  <Icon className="w-5 h-5 text-foreground/80" />
+                <div className="flex items-center gap-4 mb-5">
+                  <span className="icon-chip w-11 h-11">
+                    <Icon className="w-5 h-5" />
+                  </span>
+                  <h3 className="font-semibold text-xl">{l.title}</h3>
                 </div>
-                <h3 className="font-semibold text-lg mb-3">{l.title}</h3>
-                <ul className="space-y-1.5">
+                <ul className="space-y-3">
                   {l.items.map((it) => (
                     <li
                       key={it}
-                      className="text-sm text-foreground/75 flex gap-2 leading-snug"
+                      className="text-base text-muted-foreground flex gap-3 leading-relaxed"
                     >
-                      <span className="mt-1.5 w-1 h-1 rounded-full bg-primary shrink-0" />
+                      <span className="mt-2.5 w-1.5 h-1.5 rounded-full bg-primary/80 shrink-0" />
                       <span>{it}</span>
                     </li>
                   ))}
                 </ul>
-              </motion.article>
+              </article>
             );
           })}
-        </StaggerChildren>
+        </div>
       </section>
 
       {/* Bonus tracks */}
       <section>
         <FadeIn delay={0.05}>
-          <h2 className="font-serif text-3xl mb-5">Bonus tracks claimed</h2>
+          <div className="mb-10">
+            <h2 className="font-serif text-4xl mb-3">Bonus tracks claimed</h2>
+            <p className="text-lg text-muted-foreground">
+              Hooks the env exposes for each track.
+            </p>
+          </div>
         </FadeIn>
-        <StaggerChildren className="grid md:grid-cols-3 gap-4">
+        <div className="grid md:grid-cols-3 gap-5">
           {BONUS_TRACKS.map((b) => (
-            <motion.div
+            <article
               key={b.name}
-              variants={childFadeUp}
-              className="rounded-2xl bg-gradient-to-br from-white to-muted/30 border border-border p-5 shadow-soft"
+              className="card-surface p-7"
             >
-              <div className="text-xs uppercase tracking-wider text-primary font-semibold mb-2">
+              <div className="text-xs uppercase tracking-[0.1em] text-primary font-medium mb-3">
                 {b.name}
               </div>
-              <h3 className="font-serif text-xl mb-2">{b.claim}</h3>
-              <p className="text-sm text-foreground/70 leading-relaxed">
+              <h3 className="font-serif text-2xl mb-4">{b.claim}</h3>
+              <p className="text-base text-muted-foreground leading-relaxed">
                 {b.body}
               </p>
-            </motion.div>
+            </article>
           ))}
-        </StaggerChildren>
+        </div>
       </section>
 
       {/* Citations */}
       <section>
         <FadeIn delay={0.05}>
-          <h2 className="font-serif text-3xl mb-5 flex items-center gap-2">
-            <BookOpen className="w-6 h-6 text-primary" /> Citations
-          </h2>
+          <div className="mb-10">
+            <h2 className="font-serif text-4xl mb-3">Citations</h2>
+            <p className="text-lg text-muted-foreground">
+              The papers and specs this work builds on.
+            </p>
+          </div>
         </FadeIn>
-        <div className="rounded-2xl bg-white border border-border divide-y divide-border overflow-hidden shadow-soft">
+        <div className="card-surface divide-y divide-border overflow-hidden">
           {CITATIONS.map((c) => (
             <div
               key={c.title}
-              className="p-4 flex items-start gap-4 hover:bg-muted/20 transition"
+              className="px-7 py-6 flex items-start gap-5"
             >
-              <div className="w-9 h-9 rounded-lg bg-primary-soft/60 flex items-center justify-center shrink-0">
-                <BookOpen className="w-4 h-4 text-primary" />
-              </div>
+              <span className="icon-chip shrink-0 w-11 h-11">
+                <BookOpen className="w-5 h-5" />
+              </span>
               <div className="flex-1">
-                <div className="font-medium">{c.title}</div>
-                <div className="text-xs text-muted-foreground font-mono mb-1">
+                <div className="font-semibold text-lg">{c.title}</div>
+                <div className="text-sm text-muted-foreground font-mono mb-2">
                   {c.venue}
                 </div>
-                <p className="text-sm text-foreground/70">{c.note}</p>
+                <p className="text-base text-muted-foreground leading-relaxed">
+                  {c.note}
+                </p>
               </div>
             </div>
           ))}
@@ -271,20 +283,17 @@ export default function AboutPage() {
       </section>
 
       {/* CTA */}
-      <FadeIn delay={0.1}>
-        <div className="rounded-2xl glass-card p-8 flex flex-col md:flex-row items-start md:items-center gap-5">
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-soft to-accent-peach/70 flex items-center justify-center shrink-0">
-            <Code2 className="w-6 h-6 text-foreground/80" />
-          </div>
+      <FadeIn delay={0.05}>
+        <div className="card-surface p-10 md:p-12 flex flex-col md:flex-row md:items-center gap-6">
           <div className="flex-1">
-            <h3 className="font-serif text-2xl mb-1">Try it yourself</h3>
-            <p className="text-sm text-muted-foreground">
+            <h3 className="font-serif text-3xl mb-3">Try it yourself</h3>
+            <p className="text-lg text-muted-foreground">
               The environment is live, the trained model is on HF Hub, the code
               is open.
             </p>
           </div>
-          <div className="flex gap-2 flex-wrap">
-            <Link href="/founder" className="btn btn-primary">
+          <div className="flex gap-3 flex-wrap">
+            <Link href="/founder" className="btn btn-primary text-base px-5 py-2.5">
               <Sparkles className="w-4 h-4" />
               Founder mode
               <ArrowRight className="w-3.5 h-3.5" />
@@ -293,7 +302,7 @@ export default function AboutPage() {
               href="https://github.com/Falgunisharma72/smb-ad-manager"
               target="_blank"
               rel="noreferrer"
-              className="btn btn-ghost border border-border"
+              className="btn btn-ghost border border-border text-base px-5 py-2.5"
             >
               <Github className="w-4 h-4" />
               GitHub

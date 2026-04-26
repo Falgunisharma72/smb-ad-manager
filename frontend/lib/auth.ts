@@ -1,6 +1,6 @@
 /**
  * Simple cookie-based auth for hackathon demo.
- * Not meant to be secure — just a gate so only judges with credentials can see the demo.
+ * Not meant to be secure - just a gate so only judges with credentials can see the demo.
  *
  * Username / password live in environment variables:
  *   AUTH_USERNAME    (default: admin)

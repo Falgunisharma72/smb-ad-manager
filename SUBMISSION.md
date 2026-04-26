@@ -45,12 +45,20 @@ the failure as honest research.
 
 | Source | What we used it for |
 |---|---|
-| **WordStream 2024-2025 Facebook benchmarks** ([link](https://www.wordstream.com/blog/ws/2024/03/05/facebook-advertising-benchmarks)) | Per-vertical baseline CTR / conversion rate / audience pressure |
-| **Meta Ads Library** | Reach / impression spot-checks across the 3 verticals |
-| **Indian-market CPM rates** (5–8× lower than US) | Per-impression cost realism — the reason ROAS in our scenarios is meaningful |
-| **Hand-crafted SFT data** (`training/sft_data.jsonl`) | 100 examples, 9-tool action grammar, every example schema-valid |
+| [**WordStream 2024-2025 Facebook benchmarks**](https://www.wordstream.com/blog/ws/2024/03/05/facebook-advertising-benchmarks) | Per-vertical baseline CTR / conversion rate / audience pressure |
+| [**Meta Ads Library**](https://www.facebook.com/ads/library/) | Reach / impression spot-checks across the 3 verticals |
+| [**Indian-market CPM rates**](https://www.statista.com/statistics/259345/inmobi-cpm-rates-by-country/) (5–8× lower than US) | Per-impression cost realism — the reason ROAS in our scenarios is meaningful |
+| **Hand-crafted SFT data** ([`training/sft_data.jsonl`](https://github.com/Falgunisharma72/smb-ad-manager/blob/main/training/sft_data.jsonl)) | 100 examples, 9-tool action grammar, every example schema-valid |
 
 ### Verticals we calibrated (3 industries × benchmarks)
+
+Acronyms used in the table below:
+
+- **CTR** — Click-Through Rate (% of impressions that produce a click)
+- **Conv rate** — Conversion rate (% of clicks that produce a conversion)
+- **AOV** — Average Order Value (typical revenue per converting customer, in INR)
+- **CPM** — Cost Per Mille / cost per 1,000 impressions (in INR)
+- **Pressure** — Competitive auction multiplier (1.0× = average; >1 = harder)
 
 | Industry | Baseline CTR | Conv rate | AOV | CPM (INR) | Pressure |
 |---|---:|---:|---:|---:|---:|
@@ -324,8 +332,8 @@ Vercel · Qwen 2.5 (1.5B / 3B Instruct) · HF TRL · peft (LoRA) · bitsandbytes
 **Team name — Sarthak's team**
 
 - Falguni Sharma
-- Sarthak
-- Shrishty
+- Sarthak Kala
+- Shrishty Kothiyal
 
 ---
 

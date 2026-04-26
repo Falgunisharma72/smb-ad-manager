@@ -30,26 +30,26 @@ const CHARTS = [
     file: "1.png",
     title: "Reward / mean",
     caption:
-      "Reward climbs from 0.41 to 0.71 over 200 steps. The clean monotonic curve is the textbook RL convergence signature — no collapse, no plateau.",
+      "Reward climbs from 0.41 to 0.71 over 200 steps. The clean monotonic curve is the textbook RL convergence signature - no collapse, no plateau.",
     tag: "headline",
   },
   {
     file: "2.png",
     title: "Policy loss",
     caption:
-      "Policy loss oscillates near zero — expected for GRPO, where the loss reflects advantage-weighted log-probs of sampled completions.",
+      "Policy loss oscillates near zero - expected for GRPO, where the loss reflects advantage-weighted log-probs of sampled completions.",
   },
   {
     file: "3.png",
     title: "Entropy",
     caption:
-      "Entropy increased from 0.29 to 0.47 over training — the model didn't collapse to deterministic outputs. Healthy exploration was preserved.",
+      "Entropy increased from 0.29 to 0.47 over training - the model didn't collapse to deterministic outputs. Healthy exploration was preserved.",
   },
   {
     file: "4.png",
     title: "Completion length",
     caption:
-      "Completions stayed in the 90-120 token band — concise, well-formed JSON actions. No mode collapse to single-token spam, no length explosion.",
+      "Completions stayed in the 90-120 token band - concise, well-formed JSON actions. No mode collapse to single-token spam, no length explosion.",
   },
 ];
 
@@ -64,11 +64,11 @@ const REWARD_AVERAGES = [
 const STAGE_COMPARISON = [
   {
     stage: "Base Qwen 2.5 1.5B",
-    parses_json: "—",
-    follows_schema: "—",
-    policy_clean: "—",
+    parses_json: "-",
+    follows_schema: "-",
+    policy_clean: "-",
     avg_reward: "n/a",
-    note: "Untrained on this task — outputs unstructured prose.",
+    note: "Untrained on this task - outputs unstructured prose.",
   },
   {
     stage: "+ SFT warm-start",
@@ -84,7 +84,7 @@ const STAGE_COMPARISON = [
     follows_schema: "partial",
     policy_clean: "✓",
     avg_reward: "0.71",
-    note: "RL refinement — better reasoning text, more confident tool selection, perfect policy compliance.",
+    note: "RL refinement - better reasoning text, more confident tool selection, perfect policy compliance.",
   },
 ];
 
@@ -92,7 +92,7 @@ const LIMITATIONS = [
   {
     finding: "Agent converges to a 'spam create' policy",
     detail:
-      "After GRPO the model heavily prefers create_campaign / create_ad. These score reliable partial credit (tool present + args present + reasoning present) but rarely modify the running campaign — so lift over a noop baseline is small.",
+      "After GRPO the model heavily prefers create_campaign / create_ad. These score reliable partial credit (tool present + args present + reasoning present) but rarely modify the running campaign - so lift over a noop baseline is small.",
     fix: "Train longer (1k+ steps) or remove partial credit so the agent can't score without genuine campaign improvement.",
   },
   {
@@ -104,7 +104,7 @@ const LIMITATIONS = [
   {
     finding: "Hallucinated tool names",
     detail:
-      "Some seeds produce tool names like creative_curation, creative_selection — invented by the model, rejected by the env with 422.",
+      "Some seeds produce tool names like creative_curation, creative_selection - invented by the model, rejected by the env with 422.",
     fix: "Include the explicit tool list in every prompt (we currently rely on the model remembering it from SFT).",
   },
 ];
@@ -137,7 +137,7 @@ export default function MetricsPage() {
       <FadeIn>
         <div className="relative overflow-hidden rounded-2xl glass-card p-8 md:p-12">
           <div className="relative z-10 max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-white/60 px-3 py-1 text-xs font-medium text-muted-foreground mb-4">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-xs font-medium text-muted-foreground mb-4">
               <Activity className="w-3 h-3 text-primary" />
               Training run · volcanic-blaze-7
             </div>
@@ -147,7 +147,7 @@ export default function MetricsPage() {
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed mb-6">
               Reward climbed from <b className="text-foreground">0.41</b> to{" "}
-              <b className="text-foreground">0.71</b> — a 73% improvement on a
+              <b className="text-foreground">0.71</b> - a 73% improvement on a
               5-component reward signal that already includes 5 anti-hack
               detectors.
             </p>
@@ -180,7 +180,7 @@ export default function MetricsPage() {
               <motion.div
                 key={f.label}
                 variants={childFadeUp}
-                className="rounded-2xl bg-white/80 border border-border p-5 shadow-soft"
+                className="rounded-2xl bg-card/80 border border-border p-5 shadow-soft"
               >
                 <Icon className="w-5 h-5 text-primary mb-3" strokeWidth={1.8} />
                 <div className="text-xs uppercase tracking-wider text-muted-foreground mb-1">
@@ -211,7 +211,7 @@ export default function MetricsPage() {
             <motion.div
               key={c.file}
               variants={childFadeUp}
-              className={`rounded-2xl bg-white border ${
+              className={`rounded-2xl bg-card border ${
                 c.tag === "headline" ? "border-primary/40 shadow-soft-md" : "border-border shadow-soft"
               } overflow-hidden`}
             >
@@ -245,15 +245,15 @@ export default function MetricsPage() {
             the live env.
           </p>
         </FadeIn>
-        <div className="rounded-2xl bg-white border border-border shadow-soft p-2">
+        <div className="rounded-2xl bg-card border border-border shadow-soft p-2">
           {REWARD_AVERAGES.map((r) => (
             <RewardBar key={r.id} {...r} />
           ))}
         </div>
         <p className="mt-3 text-xs text-muted-foreground">
-          r2/r4/r5 saturate at 1.0 — the agent is provably policy-clean,
+          r2/r4/r5 saturate at 1.0 - the agent is provably policy-clean,
           budget-clean, and doesn't fabricate metrics. r1 (ROAS) is the
-          variable. r3 (format) is the honest weakness — see Limitations.
+          variable. r3 (format) is the honest weakness - see Limitations.
         </p>
       </section>
 
@@ -266,7 +266,7 @@ export default function MetricsPage() {
             pipeline.
           </p>
         </FadeIn>
-        <div className="rounded-2xl bg-white border border-border shadow-soft overflow-hidden">
+        <div className="rounded-2xl bg-card border border-border shadow-soft overflow-hidden">
           <div className="hidden md:grid grid-cols-12 gap-3 px-5 py-3 bg-muted/30 border-b border-border text-xs font-medium uppercase tracking-wider text-muted-foreground">
             <div className="col-span-3">Stage</div>
             <div className="col-span-2">Parses JSON</div>
@@ -314,7 +314,7 @@ export default function MetricsPage() {
             Limitations & future work
           </h2>
           <p className="text-muted-foreground mb-5">
-            Honest read of what the model didn't learn — and what we'd fix with
+            Honest read of what the model didn't learn - and what we'd fix with
             more compute.
           </p>
         </FadeIn>
@@ -323,7 +323,7 @@ export default function MetricsPage() {
             <motion.article
               key={l.finding}
               variants={childFadeUp}
-              className="rounded-2xl bg-white border border-border p-5 shadow-soft"
+              className="rounded-2xl bg-card border border-border p-5 shadow-soft"
             >
               <h3 className="font-medium text-base mb-2 flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-warning" />
@@ -351,7 +351,7 @@ export default function MetricsPage() {
             Method & citations
           </h2>
         </FadeIn>
-        <div className="rounded-2xl bg-white border border-border divide-y divide-border overflow-hidden shadow-soft">
+        <div className="rounded-2xl bg-card border border-border divide-y divide-border overflow-hidden shadow-soft">
           {CITATIONS.map((c) => (
             <a
               key={c.title}
@@ -468,7 +468,7 @@ function Badge({ value }: { value: string }) {
         <CheckCircle2 className="w-3.5 h-3.5" /> yes
       </span>
     );
-  if (value === "—")
-    return <span className="text-muted-foreground">—</span>;
+  if (value === "-")
+    return <span className="text-muted-foreground">-</span>;
   return <span>{value}</span>;
 }

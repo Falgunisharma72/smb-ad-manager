@@ -8,7 +8,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Pastel light theme — warm, soft, SaaS-y
+        // Pastel light theme - warm, soft, SaaS-y
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

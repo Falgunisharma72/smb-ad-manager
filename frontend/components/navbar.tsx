@@ -32,7 +32,7 @@ export function Navbar() {
       transition={{ duration: 0.4 }}
       className="sticky top-0 z-40 glass-card border-b border-border/60"
     >
-      <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+      <div className="px-6 md:px-10 lg:px-16 py-3 flex items-center justify-between">
         {/* Brand */}
         <Link href="/dashboard" className="flex items-center gap-2.5 group">
           <motion.div
@@ -43,7 +43,7 @@ export function Navbar() {
             <Sparkles className="w-4 h-4 text-primary" strokeWidth={2} />
           </motion.div>
           <span className="font-serif text-lg leading-none group-hover:text-primary transition">
-            SMB Ad Manager
+            MetaScale
           </span>
         </Link>
 

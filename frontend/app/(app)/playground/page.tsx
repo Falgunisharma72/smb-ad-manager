@@ -28,7 +28,7 @@ const ACTION_PRESETS = [
           new_daily_budget_inr: Math.round(c.daily_budget_inr * 1.5),
         },
         reasoning:
-          "Metrics suggest strong ROAS — allocating more spend to this campaign.",
+          "Metrics suggest strong ROAS - allocating more spend to this campaign.",
       };
     },
   },
@@ -42,7 +42,7 @@ const ACTION_PRESETS = [
       return {
         tool: "get_metrics",
         args: { campaign_id: c.id },
-        reasoning: "Fetching metrics before deciding — don't want to hallucinate.",
+        reasoning: "Fetching metrics before deciding - don't want to hallucinate.",
       };
     },
   },
@@ -143,7 +143,7 @@ export default function PlaygroundPage() {
                 className={`text-left rounded-xl p-4 border transition ${
                   task === t.id
                     ? "border-primary bg-primary-soft/70 shadow-soft-md"
-                    : "border-border bg-white/60 hover:border-primary/40"
+                    : "border-border bg-card/60 hover:border-primary/40"
                 }`}
               >
                 <div className="font-serif text-xl mb-1">{t.label}</div>
@@ -200,7 +200,7 @@ export default function PlaygroundPage() {
           >
             {/* SMB profile + campaign */}
             <div className="lg:col-span-2 space-y-5">
-              <div className="rounded-2xl bg-white border border-border p-6 shadow-soft">
+              <div className="rounded-2xl bg-card border border-border p-6 shadow-soft">
                 <div className="flex items-start justify-between gap-4 mb-4">
                   <div>
                     <h3 className="font-serif text-2xl">{obs.smb_profile.name}</h3>
@@ -234,7 +234,7 @@ export default function PlaygroundPage() {
                       const roas =
                         m && m.spend_inr > 0
                           ? (m.revenue_inr / m.spend_inr).toFixed(2)
-                          : "—";
+                          : "-";
                       return (
                         <div
                           key={c.id}
@@ -309,7 +309,7 @@ export default function PlaygroundPage() {
 
             {/* Action menu + latest reward */}
             <div className="space-y-5">
-              <div className="rounded-2xl bg-white border border-border p-6 shadow-soft">
+              <div className="rounded-2xl bg-card border border-border p-6 shadow-soft">
                 <h3 className="font-semibold mb-4">Choose an action</h3>
                 <div className="space-y-2.5">
                   {ACTION_PRESETS.map((a) => {
@@ -346,7 +346,7 @@ export default function PlaygroundPage() {
                   key={`reward-${history.length}`}
                   initial={{ scale: 0.98, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  className="rounded-2xl bg-white border border-border p-6 shadow-soft"
+                  className="rounded-2xl bg-card border border-border p-6 shadow-soft"
                 >
                   <h3 className="font-semibold mb-3">Last reward</h3>
                   <div className="flex items-center gap-2 mb-4">
@@ -402,7 +402,7 @@ export default function PlaygroundPage() {
                     >
                       <CheckCircle2 className="w-4 h-4 text-success mt-0.5 shrink-0" />
                       <div className="text-xs text-success">
-                        Clean action — all 5 reward components passed.
+                        Clean action - all 5 reward components passed.
                       </div>
                     </motion.div>
                   )}

@@ -41,8 +41,10 @@ brief and current campaign state, it emits a JSON action choosing one of 8
 Meta Marketing API tools (`create_campaign`, `pause_ad`, `update_budget`,
 `rewrite_creative`, etc.) along with reasoning.
 
-It was trained against a calibrated simulator (WordStream India + Meta Ad
-Library benchmarks) where the reward isn't just outcome — it's whether the
+It was trained against a calibrated simulator
+([WordStream India](https://www.wordstream.com/blog/ws/2024/03/05/facebook-advertising-benchmarks)
++ [Meta Ad Library](https://www.facebook.com/ads/library/) benchmarks)
+where the reward isn't just outcome — it's whether the
 agent achieved that outcome *without taking shortcuts*. Five anti-hack
 detectors fire alongside the reward signal:
 
@@ -210,8 +212,8 @@ These are surfaced on the live demo's `/metrics` page — judges can verify.
 **Team name — Sarthak's team**
 
 - Falguni Sharma
-- Sarthak
-- Shrishty
+- Sarthak Kala
+- Shrishty Kothiyal
 
 ## License
 
