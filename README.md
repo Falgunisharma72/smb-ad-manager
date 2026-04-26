@@ -29,7 +29,7 @@ app_port: 7860
 | 🚀 **Trained GRPO adapter** | <https://huggingface.co/Falgunisharma/smb-ad-manager-grpo> |
 | 📊 **W&B training run** | <https://wandb.ai/f-banasthali-vidyapith/smb-ad-manager/runs/n3f4majc> |
 | 💻 **Source** | <https://github.com/Falgunisharma72/smb-ad-manager> |
-| 🎬 **Demo website** | _Pending — Vercel URL will be filled in after deploy_ |
+| 🎬 **Demo website** | <https://smb-ad-manager.vercel.app> _(login: `admin` / `hackathon2026`)_ |
 
 ---
 
